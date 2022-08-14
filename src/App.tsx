@@ -1,13 +1,19 @@
 import React from 'react';
-import { Counter } from './components/counter/Counter';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-const App = () => {
+// Components
+import { CounterPage } from './pages/CounterPage';
+import { HomePage } from './pages/HomePage';
+
+export const App = () => {
   return (
     <>
-      <div>This is going to be an admin panel.</div>
-      <Counter />;
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/counter" element={<CounterPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 };
-
-export default App;

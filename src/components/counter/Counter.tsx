@@ -1,4 +1,6 @@
 import React from 'react';
+
+// Actions
 import { decrement, increment } from '../../features/counter/slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 
