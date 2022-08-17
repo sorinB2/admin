@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 // Components
@@ -8,9 +9,9 @@ export const CounterPage = () => {
   const navigate = useNavigate();
   return (
     <>
-      <p>Welcome to the counter page</p>
+      <Typography>Welcome to the counter page</Typography>
       <Counter />
-      <button onClick={() => navigate('/')}>Go back to home page</button>
+      <Button onClick={() => navigate('/')}>Go back to home page</Button>
     </>
   );
 };
