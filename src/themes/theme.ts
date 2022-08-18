@@ -54,7 +54,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Public Sans',
     fontFamilyInter: 'Inter',
     h1: {
       fontSize: '24px',
