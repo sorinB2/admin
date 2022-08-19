@@ -28,6 +28,7 @@ export const LoginPage = () => {
     event.preventDefault();
     !validateEmail(email) ? setEmailIsValid(false) : setEmailIsValid(true);
     password.trim().length <= 0 ? setPasswordIsValid(false) : setPasswordIsValid(true);
+
     if (validateEmail(email) && password.trim().length > 0) dispatch(login({ email, password }));
   };
 
@@ -40,7 +41,6 @@ export const LoginPage = () => {
             Sign In
           </Typography>
           <TextField
-            size="small"
             label="Email"
             type={'email'}
             required
@@ -48,9 +48,10 @@ export const LoginPage = () => {
             helperText={!emailIsValid ? 'Enter a valid email' : ''}
             value={email}
             onChange={event => dispatch(setEmail(event.target.value))}
+            InputProps={{ classes: { root: classes.inputProps } }}
+            FormHelperTextProps={{ classes: { root: classes.helperText } }}
           />
           <TextField
-            size="small"
             label="Password"
             type={'password'}
             required
@@ -58,6 +59,8 @@ export const LoginPage = () => {
             helperText={!passwordIsValid ? 'Password should not be empty' : ''}
             value={password}
             onChange={event => dispatch(setPassword(event.target.value))}
+            InputProps={{ classes: { root: classes.inputProps } }}
+            FormHelperTextProps={{ classes: { root: classes.helperText } }}
           />
           <Button className={classes.button} variant="contained" type="submit" disabled={isLoading}>
             <Typography variant="h5">Sign In</Typography>
@@ -83,21 +86,22 @@ const useStyles = makeStyles()(theme => ({
     display: 'grid',
     justifyContent: 'center',
     alignContent: 'center',
-    height: theme.spacing(60),
-    width: theme.spacing(55),
+    height: theme.spacing(65),
+    width: theme.spacing(60),
     borderRadius: '10px',
   },
   formFields: {
     display: 'grid',
-    gridTemplateRows: '90px 70px 60px 80px',
+    gridTemplateRows: '90px 75px 60px 80px',
   },
   title: {
     textAlign: 'center',
     fontSize: '28px',
+    fontWeight: '600',
   },
   button: {
-    width: theme.spacing(40),
-    height: theme.spacing(5),
+    width: theme.spacing(47),
+    height: theme.spacing(5.5),
     alignSelf: 'end',
   },
   spinner: {
@@ -105,5 +109,12 @@ const useStyles = makeStyles()(theme => ({
     position: 'absolute',
     bottom: 'calc(50vh - 20px)',
     right: 'calc(50vw - 20px)',
+  },
+  inputProps: {
+    fontSize: '15px',
+  },
+  helperText: {
+    textAlign: 'center',
+    margin: '0',
   },
 }));
