@@ -6,15 +6,17 @@ import { login, resetFields, setEmail, setPassword } from '../features/login/sli
 import { STATUS } from '../constants/statuses';
 import { validateEmail } from '../utils/validateEmail';
 import { useNavigate } from 'react-router-dom';
+import { errorSnackBar } from '../features/snackBar/slice';
 
 export const LoginPage = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { email, password, status } = useAppSelector(state => state.login);
+  const { email, password, status, error } = useAppSelector(state => state.login);
   const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
   const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
   const isLoading = status === STATUS.PENDING;
+  const failed = status === STATUS.FAILED;
 
   useEffect(() => {
     const authToken = sessionStorage.getItem('authToken');
@@ -22,6 +24,10 @@ export const LoginPage = () => {
       navigate('/');
       dispatch(resetFields());
     }
+  }, [status]);
+
+  useEffect(() => {
+    if (failed) dispatch(errorSnackBar(error));
   }, [status]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,7 +50,7 @@ export const LoginPage = () => {
             label="Email"
             type={'email'}
             required
-            error={!emailIsValid}
+            error={!emailIsValid || failed}
             helperText={!emailIsValid ? 'Enter a valid email' : ''}
             value={email}
             onChange={event => dispatch(setEmail(event.target.value))}
@@ -55,7 +61,7 @@ export const LoginPage = () => {
             label="Password"
             type={'password'}
             required
-            error={!passwordIsValid}
+            error={!passwordIsValid || failed}
             helperText={!passwordIsValid ? 'Password should not be empty' : ''}
             value={password}
             onChange={event => dispatch(setPassword(event.target.value))}

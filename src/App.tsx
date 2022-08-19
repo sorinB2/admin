@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SnackBar from './components/UI/SnackBar';
 
 // Components
 import { HomePage } from './pages/HomePage';
@@ -14,6 +15,7 @@ export const App = () => {
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
+      <SnackBar />
     </>
   );
 };
