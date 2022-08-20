@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { login, resetFields, setEmail, setPassword } from '../features/login/slice';
 import { validateEmail } from '../utils/validateEmail';
 import { errorSnackBar } from '../features/snackBar/slice';
-import { checkAdmin } from '../features/admin/slice';
 
 // Other resources
 import { STATUS } from '../constants/statuses';
@@ -26,15 +25,15 @@ export const LoginPage = () => {
 
   useEffect(() => {
     const authToken = sessionStorage.getItem('authToken');
-    dispatch(checkAdmin(authToken));
-    if (isAdmin) {
-      navigate('/');
+    if (authToken) {
       dispatch(resetFields());
+      navigate('/');
     }
-  }, [isAdmin]);
+  }, [status]);
 
   useEffect(() => {
     if (failed) dispatch(errorSnackBar(error));
+    if (isAdmin) navigate('/');
   }, [status]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {

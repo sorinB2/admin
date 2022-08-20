@@ -1,23 +1,39 @@
 import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-
-// Components
-import { LoginPage } from '../../pages/LoginPage';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 // Actions
 import { checkAdmin } from '../../features/admin/slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { STATUS } from '../../constants/statuses';
+import { CircularProgress } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 export const ProtectedRoutes = () => {
+  const { classes } = useStyles();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const location = useLocation();
   const authToken = sessionStorage.getItem('authToken');
-  dispatch(checkAdmin(authToken));
-  const isAdmin = useAppSelector(state => state.admin.isAdmin);
+  const { isAdmin, status } = useAppSelector(state => state.admin);
+  const isLoading = status === STATUS.PENDING;
 
   useEffect(() => {
-    if (!isAdmin) navigate('/login');
-  }, [isAdmin]);
+    dispatch(checkAdmin(authToken));
+  }, []);
 
-  return isAdmin ? <Outlet /> : <LoginPage />;
+  return isLoading ? (
+    <CircularProgress className={classes.spinner} />
+  ) : isAdmin ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ form: location }} replace />
+  );
 };
+
+const useStyles = makeStyles()(() => ({
+  spinner: {
+    zIndex: '10',
+    position: 'absolute',
+    bottom: 'calc(50vh - 20px)',
+    right: 'calc(50vw - 20px)',
+  },
+}));

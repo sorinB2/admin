@@ -7,9 +7,9 @@ import { getAdminCredentials } from '../../services/checkAdmin';
 import { STATUS } from '../../constants/statuses';
 
 const initialState: Admin = {
-  status: '',
+  status: 'idle',
   error: '',
-  isAdmin: false,
+  isAdmin: true,
 };
 
 export const checkAdmin = createAsyncThunk('checkAdmin/login', async (uid: string | null) => {
