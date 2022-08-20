@@ -6,15 +6,16 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import SnackBar from './components/UI/SnackBar';
+import { ROUTES } from './constants/routes';
 
 export const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path={ROUTES.HOME} element={<HomePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

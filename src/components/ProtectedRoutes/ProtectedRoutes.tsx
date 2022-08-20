@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 // Actions
 import { checkAdmin } from '../../features/admin/slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+
+// Other resources
 import { STATUS } from '../../constants/statuses';
-import { CircularProgress } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { ROUTES } from '../../constants/routes';
 
 export const ProtectedRoutes = () => {
   const { classes } = useStyles();
@@ -25,7 +28,7 @@ export const ProtectedRoutes = () => {
   ) : isAdmin ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ form: location }} replace />
+    <Navigate to={ROUTES.LOGIN} state={{ form: location }} replace />
   );
 };
 

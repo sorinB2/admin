@@ -11,6 +11,7 @@ import { errorSnackBar } from '../features/snackBar/slice';
 
 // Other resources
 import { STATUS } from '../constants/statuses';
+import { ROUTES } from '../constants/routes';
 
 export const LoginPage = () => {
   const { classes } = useStyles();
@@ -27,13 +28,13 @@ export const LoginPage = () => {
     const authToken = sessionStorage.getItem('authToken');
     if (authToken) {
       dispatch(resetFields());
-      navigate('/');
+      navigate(ROUTES.HOME);
     }
   }, [status]);
 
   useEffect(() => {
     if (failed) dispatch(errorSnackBar(error));
-    if (isAdmin) navigate('/');
+    if (isAdmin) navigate(ROUTES.HOME);
   }, [status]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
