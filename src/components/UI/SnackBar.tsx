@@ -5,7 +5,7 @@ import { Snackbar, Alert } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { closeSnackBar } from '../../features/snackBar/slice';
 
-const SnackBar = () => {
+export const SnackBar = () => {
   const dispatch = useAppDispatch();
   const { snackBarOpen, snackBarSeverity, snackBarText } = useAppSelector(state => state.snackBar);
   const hideSnackBar = () => dispatch(closeSnackBar());
@@ -16,5 +16,3 @@ const SnackBar = () => {
     </Snackbar>
   );
 };
-
-export default SnackBar;

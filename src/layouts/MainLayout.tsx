@@ -3,11 +3,16 @@ import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 
+// Components
+import { Sidebar } from '../components/Sidebar/Sidebar';
+
 export const MainLayout = () => {
   const { classes } = useStyles();
   return (
     <Box className={classes.wrapper}>
-      <Box className={classes.sideBar} />
+      <Box className={classes.sideBar}>
+        <Sidebar />
+      </Box>
       <Box className={classes.outlet}>
         <Outlet />
       </Box>
@@ -21,16 +26,18 @@ const useStyles = makeStyles()(theme => ({
     width: '100vw',
     backgroundColor: theme.palette.common.lightBackground,
     display: 'grid',
-    gridTemplateColumns: '220px auto',
+    gridTemplateColumns: '250px auto',
   },
   sideBar: {
-    width: '220px',
+    width: '250px',
     height: '100vh',
+    display: 'grid',
+    justifyContent: 'center',
   },
   outlet: {
     height: 'calc(100vh - 40px)',
     boxSizing: 'border-box',
-    margin: `${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(2.5)}`,
+    margin: `${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0`,
     padding: theme.spacing(3.125),
     backgroundColor: '#FEFEFE',
     borderRadius: '15px',

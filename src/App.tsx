@@ -1,11 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 // Components
-import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
+import { Dashboard } from './pages/Dashboard';
+import { Customers } from './pages/Customers';
+import { Products } from './pages/Products';
+import { Sales } from './pages/Sales';
 import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
-import SnackBar from './components/UI/SnackBar';
+import { SnackBar } from './components/UI/SnackBar';
 import { MainLayout } from './layouts/MainLayout';
 
 // Other resources
@@ -19,7 +22,11 @@ export const App = () => {
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route element={<ProtectedRoutes />}>
             <Route element={<MainLayout />}>
-              <Route path={ROUTES.HOME} element={<HomePage />} />
+              <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.DASHBOARD} />} />
+              <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+              <Route path={ROUTES.CUSTOMERS} element={<Customers />} />
+              <Route path={ROUTES.PRODUCTS} element={<Products />} />
+              <Route path={ROUTES.SALES} element={<Sales />} />
             </Route>
           </Route>
         </Routes>
