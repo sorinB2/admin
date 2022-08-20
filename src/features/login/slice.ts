@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+// Action
+import { loginFetch } from '../../services/loginFetch';
+
+// Other resources
 import { STATUS } from '../../constants/statuses';
-import { loginFetch } from '../../services/login/loginFetch';
 
 const initialState: LogIn = {
   status: '',

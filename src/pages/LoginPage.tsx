@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { useNavigate } from 'react-router-dom';
+
+// Actions
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { login, resetFields, setEmail, setPassword } from '../features/login/slice';
-import { STATUS } from '../constants/statuses';
 import { validateEmail } from '../utils/validateEmail';
-import { useNavigate } from 'react-router-dom';
 import { errorSnackBar } from '../features/snackBar/slice';
+import { checkAdmin } from '../features/admin/slice';
+
+// Other resources
+import { STATUS } from '../constants/statuses';
 
 export const LoginPage = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { email, password, status, error } = useAppSelector(state => state.login);
+  const isAdmin = useAppSelector(state => state.admin.isAdmin);
   const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
   const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
   const isLoading = status === STATUS.PENDING;
@@ -20,11 +26,12 @@ export const LoginPage = () => {
 
   useEffect(() => {
     const authToken = sessionStorage.getItem('authToken');
-    if (authToken) {
+    dispatch(checkAdmin(authToken));
+    if (isAdmin) {
       navigate('/');
       dispatch(resetFields());
     }
-  }, [status]);
+  }, [isAdmin]);
 
   useEffect(() => {
     if (failed) dispatch(errorSnackBar(error));
@@ -35,7 +42,9 @@ export const LoginPage = () => {
     !validateEmail(email) ? setEmailIsValid(false) : setEmailIsValid(true);
     password.trim().length <= 0 ? setPasswordIsValid(false) : setPasswordIsValid(true);
 
-    if (validateEmail(email) && password.trim().length > 0) dispatch(login({ email, password }));
+    if (validateEmail(email) && password.trim().length > 0) {
+      dispatch(login({ email, password }));
+    }
   };
 
   return (
