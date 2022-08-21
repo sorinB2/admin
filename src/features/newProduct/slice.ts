@@ -56,8 +56,9 @@ const newProductSlice = createSlice({
       state.productData.material = action.payload;
     },
     discard: state => {
-      state.status = '';
-      state.error = '';
+      state.productData = initialState.productData;
+      state.status = initialState.status;
+      state.error = initialState.error;
     },
   },
   extraReducers: builder => {

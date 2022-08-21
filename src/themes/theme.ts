@@ -40,7 +40,7 @@ export const theme = createTheme({
       light: Colors.gray,
     },
     secondary: {
-      main: Colors.mainGreen,
+      main: Colors.lightGreen,
       light: Colors.stroke,
     },
     action: {

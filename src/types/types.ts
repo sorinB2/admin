@@ -7,4 +7,5 @@ export interface ProductData {
   width: number;
   fragrance: string;
   material: string;
+  id?: string;
 }

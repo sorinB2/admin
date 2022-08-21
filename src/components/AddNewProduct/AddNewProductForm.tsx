@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   Box,
   Button,
-  Card,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -68,81 +67,74 @@ export const AddNewProductFrom = () => {
   };
 
   return (
-    <Card>
-      <form className={classes.form} onSubmit={submitHandler}>
-        <Typography variant="h1" className={classes.title}>
-          Add new product
-        </Typography>
-        <TextField type="text" label="Brand" required onChange={e => dispatch(setBrand(e.target.value))} />
-        <TextField type="text" label="Name" required onChange={e => dispatch(setName(e.target.value))} />
-        <Box className={classes.inputBox}>
-          <TextField
-            label="Number of wipes"
-            type="number"
+    <form className={classes.form} onSubmit={submitHandler}>
+      <Typography variant="h1" className={classes.title}>
+        Add new product
+      </Typography>
+      <TextField type="text" label="Brand" required onChange={e => dispatch(setBrand(e.target.value))} />
+      <TextField type="text" label="Name" required onChange={e => dispatch(setName(e.target.value))} />
+      <Box className={classes.inputBox}>
+        <TextField label="Number of wipes" type="number" required onChange={e => dispatch(setWipes(e.target.value))} />
+        <TextField label="Stock" type="number" required onChange={e => dispatch(setStock(e.target.value))} />
+      </Box>
+      <Box className={classes.inputBox}>
+        <TextField
+          label="Density"
+          type="number"
+          required
+          onChange={e => dispatch(setDensity(e.target.value))}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">gsm</InputAdornment>,
+          }}
+        />
+        <TextField
+          label="Width"
+          type="number"
+          required
+          onChange={e => dispatch(setWidth(e.target.value))}
+          InputProps={{
+            endAdornment: <InputAdornment position="end">mm</InputAdornment>,
+          }}
+        />
+      </Box>
+      <Box className={classes.inputBox}>
+        <FormControl>
+          <InputLabel id="fragrance">Fragrance</InputLabel>
+          <Select
+            label="Fragrance"
+            labelId="fragrance"
+            value={productData.fragrance}
             required
-            onChange={e => dispatch(setWipes(e.target.value))}
-          />
-          <TextField label="Stock" type="number" required onChange={e => dispatch(setStock(e.target.value))} />
-        </Box>
-        <Box className={classes.inputBox}>
-          <TextField
-            label="Density"
-            type="number"
+            onChange={handleFragranceChange}
+          >
+            <MenuItem value="ocean">Ocean</MenuItem>
+            <MenuItem value="weekend">Weekend</MenuItem>
+            <MenuItem value="sunset">Sunset</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="type-of-material">Type of material</InputLabel>
+          <Select
+            label="Type of material"
+            labelId="type-of-material"
+            value={productData.material}
             required
-            onChange={e => dispatch(setDensity(e.target.value))}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">gsm</InputAdornment>,
-            }}
-          />
-          <TextField
-            label="Width"
-            type="number"
-            required
-            onChange={e => dispatch(setWidth(e.target.value))}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">mm</InputAdornment>,
-            }}
-          />
-        </Box>
-        <Box className={classes.inputBox}>
-          <FormControl>
-            <InputLabel id="fragrance">Fragrance</InputLabel>
-            <Select
-              label="Fragrance"
-              labelId="fragrance"
-              value={productData.fragrance}
-              required
-              onChange={handleFragranceChange}
-            >
-              <MenuItem value="ocean">Ocean</MenuItem>
-              <MenuItem value="weekend">Weekend</MenuItem>
-              <MenuItem value="sunset">Sunset</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <InputLabel id="type-of-material">Type of material</InputLabel>
-            <Select
-              label="Type of material"
-              labelId="type-of-material"
-              value={productData.material}
-              required
-              onChange={handleMaterialChange}
-            >
-              <MenuItem value="plain">Plain</MenuItem>
-              <MenuItem value="embossed">Embossed</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box className={classes.inputBox}>
-          <Button variant="contained" type="submit">
-            Add product
-          </Button>
-          <Button variant="outlined" onClick={cancelHandler}>
-            Cancel
-          </Button>
-        </Box>
-      </form>
-    </Card>
+            onChange={handleMaterialChange}
+          >
+            <MenuItem value="plain">Plain</MenuItem>
+            <MenuItem value="embossed">Embossed</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box className={classes.inputBox}>
+        <Button variant="contained" type="submit">
+          Add product
+        </Button>
+        <Button variant="outlined" onClick={cancelHandler}>
+          Cancel
+        </Button>
+      </Box>
+    </form>
   );
 };
 
@@ -156,6 +148,7 @@ const useStyles = makeStyles()(theme => ({
   },
   title: {
     fontWeight: '600',
+    paddingBottom: '15px',
   },
   inputBox: {
     display: 'grid',
