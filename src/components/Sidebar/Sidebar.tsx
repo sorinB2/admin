@@ -7,6 +7,7 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 
 // Components
 import { NavigationItem } from './NavigationItem';
@@ -31,6 +32,7 @@ export const Sidebar = () => {
         <NavigationItem name={'Sales'} link={ROUTES.SALES} icon={<AccountBalanceWalletOutlinedIcon />} />
         <NavigationItem name={'Products'} link={ROUTES.PRODUCTS} icon={<LocalMallOutlinedIcon />} />
         <NavigationItem name={'Customers'} link={ROUTES.CUSTOMERS} icon={<BusinessCenterOutlinedIcon />} />
+        <NavigationItem name={'Production'} link={ROUTES.PRODUCTION} icon={<InventoryOutlinedIcon />} />
       </List>
       <Box onClick={clickHandler} className={classes.logOut}>
         <NavigationItem name={'Log out'} icon={<LogoutOutlinedIcon />} />
