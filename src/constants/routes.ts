@@ -4,5 +4,6 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   SALES: '/sales',
   PRODUCTS: '/products',
+  ADD_NEW_PRODUCT: '/products/add-new-product',
   CUSTOMERS: '/customers',
 };

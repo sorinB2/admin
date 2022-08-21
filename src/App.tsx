@@ -10,6 +10,7 @@ import { Sales } from './pages/Sales';
 import { ProtectedRoutes } from './components/ProtectedRoutes/ProtectedRoutes';
 import { SnackBar } from './components/UI/SnackBar';
 import { MainLayout } from './layouts/MainLayout';
+import { AddNewProductPage } from './pages/AddNewProductPage';
 
 // Other resources
 import { ROUTES } from './constants/routes';
@@ -26,6 +27,7 @@ export const App = () => {
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
               <Route path={ROUTES.CUSTOMERS} element={<Customers />} />
               <Route path={ROUTES.PRODUCTS} element={<Products />} />
+              <Route path={ROUTES.ADD_NEW_PRODUCT} element={<AddNewProductPage />} />
               <Route path={ROUTES.SALES} element={<Sales />} />
             </Route>
           </Route>

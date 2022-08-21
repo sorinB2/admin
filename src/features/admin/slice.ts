@@ -12,7 +12,7 @@ const initialState: Admin = {
   isAdmin: true,
 };
 
-export const checkAdmin = createAsyncThunk('checkAdmin/login', async (uid: string | null) => {
+export const checkAdmin = createAsyncThunk('checkAdmin/admin', async (uid: string | null) => {
   const result = await getAdminCredentials();
   if (result?.uid === uid) return true;
   return false;
