@@ -22,7 +22,7 @@ export const Products = () => {
   const { allProducts, status } = useAppSelector(state => state.allProducts);
   const isLoading = status === STATUS.PENDING;
 
-  const clickHandler = () => {
+  const addNewProductHandler = () => {
     navigate(ROUTES.ADD_NEW_PRODUCT);
   };
 
@@ -107,7 +107,7 @@ export const Products = () => {
         components={{ Pagination: CustomPagination }}
         loading={isLoading}
       />
-      <Button variant="contained" onClick={clickHandler} className={classes.addProduct}>
+      <Button variant="contained" onClick={addNewProductHandler} className={classes.addProduct}>
         Add new product
       </Button>
     </Card>

@@ -35,12 +35,20 @@ const useStyles = makeStyles()(theme => ({
     justifyContent: 'center',
   },
   outlet: {
-    height: 'calc(100vh - 40px)',
+    minHeight: 'calc(100vh - 40px)',
     boxSizing: 'border-box',
     margin: `${theme.spacing(2.5)} ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0`,
     padding: theme.spacing(3.125),
     backgroundColor: '#FEFEFE',
     borderRadius: '15px',
     boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.08)',
+    overflowY: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '9px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: '#9C9EB2',
+      borderRadius: '5px',
+    },
   },
 }));

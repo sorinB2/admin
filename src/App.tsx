@@ -12,6 +12,7 @@ import { SnackBar } from './components/UI/SnackBar';
 import { MainLayout } from './layouts/MainLayout';
 import { AddNewProduct } from './pages/AddNewProduct';
 import { Production } from './pages/Production';
+import { AddNewCustomer } from './pages/AddNewCustomer';
 
 // Other resources
 import { ROUTES } from './constants/routes';
@@ -27,6 +28,7 @@ export const App = () => {
               <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.DASHBOARD} />} />
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
               <Route path={ROUTES.CUSTOMERS} element={<Customers />} />
+              <Route path={ROUTES.ADD_NEW_CUSTOMER} element={<AddNewCustomer />} />
               <Route path={ROUTES.PRODUCTS} element={<Products />} />
               <Route path={ROUTES.ADD_NEW_PRODUCT} element={<AddNewProduct />} />
               <Route path={ROUTES.SALES} element={<Sales />} />

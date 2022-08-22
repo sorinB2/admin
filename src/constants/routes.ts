@@ -6,5 +6,6 @@ export const ROUTES = {
   PRODUCTS: '/products',
   ADD_NEW_PRODUCT: '/products/add-new-product',
   CUSTOMERS: '/customers',
+  ADD_NEW_CUSTOMER: '/customers/add-new-customer',
   PRODUCTION: '/production',
 };
