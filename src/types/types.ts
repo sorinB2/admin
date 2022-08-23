@@ -9,3 +9,11 @@ export interface ProductData {
   material: string;
   id?: string;
 }
+
+export interface CustomerData {
+  name: string;
+  location: string;
+  phone: string;
+  receivables: number;
+  products: { product: string; price: string; id: string }[];
+}

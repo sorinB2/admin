@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { getProducts } from '../../features/allProducts/slice';
 import {
   addProduct,
+  createNewCustomer,
   discardData,
   removeProduct,
   setLocation,
@@ -35,18 +36,30 @@ import {
 
 // Other resources
 import { ROUTES } from '../../constants/routes';
+import { STATUS } from '../../constants/statuses';
+import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 
 export const AddNewCustomerForm = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { allProducts } = useAppSelector(state => state.allProducts);
-  const { products } = useAppSelector(state => state.newCustomer);
+  const { customer, status, error } = useAppSelector(state => state.newCustomer);
   const [selectedProducts, setSelectedProducts] = useState<(string | undefined)[]>([]);
+  const isLoading = status === STATUS.PENDING;
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
+
+  useEffect(() => {
+    if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
+    if (status === STATUS.FULFILLED) {
+      dispatch(successSnackBar('Customer added successfully'));
+      navigate(ROUTES.CUSTOMERS);
+      setTimeout(() => dispatch(discardData()), 1000);
+    }
+  }, [status]);
 
   const cancelHandler = () => {
     navigate(ROUTES.CUSTOMERS);
@@ -70,8 +83,13 @@ export const AddNewCustomerForm = () => {
     setSelectedProducts(prev => [...prev, value]);
   };
 
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    dispatch(createNewCustomer(customer));
+  };
+
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <Typography variant="h1" className={classes.title}>
         Add new customer
       </Typography>
@@ -89,7 +107,7 @@ export const AddNewCustomerForm = () => {
       />
       <Box className={classes.productsForm}>
         <Box className={classes.productsWrapper}>
-          {products.map((item, i) => {
+          {customer.products.map((item, i) => {
             return (
               <Box key={item.product} className={classes.productsBox}>
                 <FormControl>
@@ -139,7 +157,7 @@ export const AddNewCustomerForm = () => {
           <AddOutlinedIcon />
         </IconButton>
       </Box>
-      <Button variant="contained" type="submit">
+      <Button variant="contained" type="submit" disabled={isLoading}>
         Add customer
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>

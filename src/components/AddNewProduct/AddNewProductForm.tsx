@@ -39,14 +39,15 @@ export const AddNewProductFrom = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { productData, status, error } = useAppSelector(state => state.newProduct);
+  const isLoading = status === STATUS.PENDING;
 
   useEffect(() => {
     if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
     if (status === STATUS.FULFILLED) {
       dispatch(successSnackBar('Product added successfully'));
       navigate(ROUTES.PRODUCTS);
+      setTimeout(() => dispatch(discard()), 1000);
     }
-    setTimeout(() => dispatch(discard()), 1000);
   }, [status]);
 
   const handleMaterialChange = (event: SelectChangeEvent) => {
@@ -127,7 +128,7 @@ export const AddNewProductFrom = () => {
         </FormControl>
       </Box>
       <Box className={classes.inputBox}>
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={isLoading}>
           Add product
         </Button>
         <Button variant="outlined" onClick={cancelHandler}>
