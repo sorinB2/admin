@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -69,6 +70,7 @@ export const AddNewProductFrom = () => {
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
+      {isLoading && <CircularProgress className={classes.spinner} />}
       <Typography variant="h1" className={classes.title}>
         Add new product
       </Typography>
@@ -155,5 +157,11 @@ const useStyles = makeStyles()(theme => ({
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
     gridGap: '10px',
+  },
+  spinner: {
+    zIndex: '10',
+    position: 'absolute',
+    bottom: 'calc(50vh - 20px)',
+    right: 'calc(50vw - 20px)',
   },
 }));

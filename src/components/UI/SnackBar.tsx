@@ -11,7 +11,12 @@ export const SnackBar = () => {
   const hideSnackBar = () => dispatch(closeSnackBar());
 
   return (
-    <Snackbar open={snackBarOpen} autoHideDuration={3000} onClose={hideSnackBar}>
+    <Snackbar
+      open={snackBarOpen}
+      autoHideDuration={3000}
+      onClose={hideSnackBar}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+    >
       <Alert severity={snackBarSeverity}>{snackBarText}</Alert>
     </Snackbar>
   );

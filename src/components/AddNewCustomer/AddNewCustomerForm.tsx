@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -33,11 +34,11 @@ import {
   setProductType,
   setReceivables,
 } from '../../features/newCustomer/slice';
+import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 
 // Other resources
 import { ROUTES } from '../../constants/routes';
 import { STATUS } from '../../constants/statuses';
-import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 
 export const AddNewCustomerForm = () => {
   const { classes } = useStyles();
@@ -90,6 +91,7 @@ export const AddNewCustomerForm = () => {
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
+      {isLoading && <CircularProgress className={classes.spinner} />}
       <Typography variant="h1" className={classes.title}>
         Add new customer
       </Typography>
@@ -195,5 +197,11 @@ const useStyles = makeStyles()(theme => ({
   title: {
     fontWeight: '600',
     paddingBottom: '15px',
+  },
+  spinner: {
+    zIndex: '10',
+    position: 'absolute',
+    bottom: 'calc(50vh - 20px)',
+    right: 'calc(50vw - 20px)',
   },
 }));
