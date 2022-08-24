@@ -70,7 +70,7 @@ export const AddNewCustomerForm = () => {
   const selectChangeHandler = (e: SelectChangeEvent, i: number) => {
     const { value } = e.target;
     dispatch(setProductType({ value, i }));
-    console.log(e);
+    // console.log(e);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, i: number) => {
@@ -81,8 +81,17 @@ export const AddNewCustomerForm = () => {
   const setProductListId = (e: React.MouseEvent, i: number) => {
     const value = e.currentTarget.id;
     dispatch(setProductId({ value, i }));
-    setSelectedProducts(prev => [...prev, value]);
+    if (customer.products[i].id) {
+      const arr = selectedProducts.filter(item => item !== customer.products[i].id);
+      setSelectedProducts([...arr, value]);
+    } else {
+      setSelectedProducts(prev => [...prev, value]);
+    }
   };
+
+  useEffect(() => {
+    console.log(selectedProducts);
+  }, [selectedProducts]);
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -111,7 +120,7 @@ export const AddNewCustomerForm = () => {
         <Box className={classes.productsWrapper}>
           {customer.products.map((item, i) => {
             return (
-              <Box key={item.product} className={classes.productsBox}>
+              <Box key={i} className={classes.productsBox}>
                 <FormControl>
                   <InputLabel id="product">Product</InputLabel>
                   <Select

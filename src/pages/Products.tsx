@@ -122,7 +122,6 @@ const useStyles = makeStyles()(theme => ({
   dataGrid: {
     border: 'none',
     height: '577px',
-    // maxWidth: '916px',
     fontSize: '14px',
     color: '#000000DE',
     fontWeight: '400',
@@ -141,5 +140,8 @@ const useStyles = makeStyles()(theme => ({
     right: '14px',
     top: '14px',
     background: theme.palette.secondary.main,
+    '&:hover': {
+      background: theme.palette.secondary.main,
+    },
   },
 }));
