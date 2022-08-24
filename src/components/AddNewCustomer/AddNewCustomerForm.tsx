@@ -89,10 +89,6 @@ export const AddNewCustomerForm = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(selectedProducts);
-  }, [selectedProducts]);
-
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(createNewCustomer(customer));
