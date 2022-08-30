@@ -70,7 +70,6 @@ export const AddNewCustomerForm = () => {
   const selectChangeHandler = (e: SelectChangeEvent, i: number) => {
     const { value } = e.target;
     dispatch(setProductType({ value, i }));
-    // console.log(e);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, i: number) => {

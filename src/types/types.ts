@@ -16,4 +16,5 @@ export interface CustomerData {
   phone: string;
   receivables: number;
   products: { product: string; price: string; id: string }[];
+  id?: string;
 }
