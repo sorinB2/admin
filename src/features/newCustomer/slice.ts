@@ -45,6 +45,7 @@ const newCustomerSlice = createSlice({
     },
     removeProduct: (state, action) => {
       const list = [...state.customer.products];
+      if (list.length === 1) return;
       list.splice(action.payload, 1);
       state.customer.products = list;
     },

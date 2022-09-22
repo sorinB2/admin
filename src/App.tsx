@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 // Components
@@ -13,11 +13,22 @@ import { MainLayout } from './layouts/MainLayout';
 import { AddNewProduct } from './pages/AddNewProduct';
 import { Production } from './pages/Production';
 import { AddNewCustomer } from './pages/AddNewCustomer';
+import { AddNewSale } from './pages/AddNewSale';
+
+// Actions
+import { useAppDispatch } from './hooks/reduxHooks';
+import { errorSnackBar } from './features/snackBar/slice';
 
 // Other resources
 import { ROUTES } from './constants/routes';
 
 export const App = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!navigator.onLine) dispatch(errorSnackBar('Network request failed'));
+  }, [navigator.onLine]);
+
   return (
     <>
       <BrowserRouter>
@@ -32,6 +43,7 @@ export const App = () => {
               <Route path={ROUTES.PRODUCTS} element={<Products />} />
               <Route path={ROUTES.ADD_NEW_PRODUCT} element={<AddNewProduct />} />
               <Route path={ROUTES.SALES} element={<Sales />} />
+              <Route path={ROUTES.ADD_NEW_SALE} element={<AddNewSale />} />
               <Route path={ROUTES.PRODUCTION} element={<Production />} />
             </Route>
           </Route>

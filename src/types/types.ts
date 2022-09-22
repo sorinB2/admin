@@ -10,11 +10,36 @@ export interface ProductData {
   id?: string;
 }
 
+export interface Product {
+  product: string;
+  price: string;
+  id: string;
+}
+
+export interface SaleProduct extends Product {
+  stock: string;
+}
+
 export interface CustomerData {
   name: string;
   location: string;
   phone: string;
   receivables: number;
-  products: { product: string; price: string; id: string }[];
+  products: Product[];
   id?: string;
+}
+
+export interface SaleData {
+  customer: CustomerData;
+  order: OrderData[];
+  date: string;
+  totalIncome: number;
+  paid: boolean;
+  status: string;
+}
+
+export interface OrderData {
+  product: SaleProduct;
+  units: string;
+  income: number;
 }

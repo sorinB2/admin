@@ -88,6 +88,11 @@ export const AddNewCustomerForm = () => {
     }
   };
 
+  const removeProductListId = (id: string) => {
+    const list = selectedProducts.filter(item => item !== id);
+    setSelectedProducts(list);
+  };
+
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(createNewCustomer(customer));
@@ -152,7 +157,12 @@ export const AddNewCustomerForm = () => {
                     endAdornment: <InputAdornment position="end">mdl</InputAdornment>,
                   }}
                 />
-                <IconButton onClick={() => dispatch(removeProduct(i))}>
+                <IconButton
+                  onClick={() => {
+                    removeProductListId(customer.products[i].id);
+                    dispatch(removeProduct(i));
+                  }}
+                >
                   <DeleteOutlinedIcon />
                 </IconButton>
               </Box>
@@ -196,7 +206,7 @@ const useStyles = makeStyles()(theme => ({
   },
   addProduct: {
     height: theme.spacing(6.75),
-    alignSelf: 'end',
+    alignSelf: 'start',
   },
   title: {
     fontWeight: '600',
