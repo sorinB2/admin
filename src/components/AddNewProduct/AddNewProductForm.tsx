@@ -34,6 +34,7 @@ import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 // Other resources
 import { STATUS } from '../../constants/statuses';
 import { ROUTES } from '../../constants/routes';
+import { STRINGS } from '../../constants/strings';
 
 export const AddNewProductFrom = () => {
   const { classes } = useStyles();
@@ -45,7 +46,7 @@ export const AddNewProductFrom = () => {
   useEffect(() => {
     if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
     if (status === STATUS.FULFILLED) {
-      dispatch(successSnackBar('Product added successfully'));
+      dispatch(successSnackBar(STRINGS.PRODUCT_SUCCESS));
       navigate(ROUTES.PRODUCTS);
       setTimeout(() => dispatch(discard()), 1000);
     }
@@ -72,17 +73,17 @@ export const AddNewProductFrom = () => {
     <form className={classes.form} onSubmit={submitHandler}>
       {isLoading && <CircularProgress className={classes.spinner} />}
       <Typography variant="h1" className={classes.title}>
-        Add new product
+        {STRINGS.ADD_NEW_PRODUCT}
       </Typography>
-      <TextField type="text" label="Brand" required onChange={e => dispatch(setBrand(e.target.value))} />
-      <TextField type="text" label="Name" required onChange={e => dispatch(setName(e.target.value))} />
+      <TextField type="text" label={STRINGS.BRAND} required onChange={e => dispatch(setBrand(e.target.value))} />
+      <TextField type="text" label={STRINGS.NAME} required onChange={e => dispatch(setName(e.target.value))} />
       <Box className={classes.inputBox}>
-        <TextField label="Number of wipes" type="number" required onChange={e => dispatch(setWipes(e.target.value))} />
-        <TextField label="Stock" type="number" required onChange={e => dispatch(setStock(e.target.value))} />
+        <TextField label={STRINGS.NR_WIPES} type="number" required onChange={e => dispatch(setWipes(e.target.value))} />
+        <TextField label={STRINGS.STOCK} type="number" required onChange={e => dispatch(setStock(e.target.value))} />
       </Box>
       <Box className={classes.inputBox}>
         <TextField
-          label="Density"
+          label={STRINGS.DENSITY}
           type="number"
           required
           onChange={e => dispatch(setDensity(e.target.value))}
@@ -91,7 +92,7 @@ export const AddNewProductFrom = () => {
           }}
         />
         <TextField
-          label="Width"
+          label={STRINGS.WIDTH}
           type="number"
           required
           onChange={e => dispatch(setWidth(e.target.value))}
@@ -104,7 +105,7 @@ export const AddNewProductFrom = () => {
         <FormControl>
           <InputLabel id="fragrance">Fragrance</InputLabel>
           <Select
-            label="Fragrance"
+            label={STRINGS.FRAGRANCE}
             labelId="fragrance"
             value={productData.fragrance}
             required
@@ -116,9 +117,9 @@ export const AddNewProductFrom = () => {
           </Select>
         </FormControl>
         <FormControl>
-          <InputLabel id="type-of-material">Type of material</InputLabel>
+          <InputLabel id="type-of-material">{STRINGS.MATERIAL_TYPE}</InputLabel>
           <Select
-            label="Type of material"
+            label={STRINGS.MATERIAL_TYPE}
             labelId="type-of-material"
             value={productData.material}
             required
@@ -131,10 +132,10 @@ export const AddNewProductFrom = () => {
       </Box>
       <Box className={classes.inputBox}>
         <Button variant="contained" type="submit" disabled={isLoading}>
-          Add product
+          {STRINGS.ADD_PRODUCT}
         </Button>
         <Button variant="outlined" onClick={cancelHandler}>
-          Cancel
+          {STRINGS.CANCEL}
         </Button>
       </Box>
     </form>

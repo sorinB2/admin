@@ -9,6 +9,9 @@ import { CustomersTableRow } from './CustomersTableRow';
 import { getCustomers } from '../../features/allCustomers/slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 
+// Other resources
+import { STRINGS } from '../../constants/strings';
+
 export const CustomersTable = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
@@ -25,16 +28,16 @@ export const CustomersTable = () => {
           <TableRow>
             <TableCell />
             <TableCell align="center" className={classes.tableHeader}>
-              Name
+              {STRINGS.NAME}
             </TableCell>
             <TableCell align="center" className={classes.tableHeader}>
-              Location
+              {STRINGS.LOCATION}
             </TableCell>
             <TableCell align="center" className={classes.tableHeader}>
-              Phone
+              {STRINGS.PHONE_NUMBER}
             </TableCell>
             <TableCell align="center" className={classes.tableHeader}>
-              Receivables
+              {STRINGS.RECEIVABLES}
             </TableCell>
           </TableRow>
         </TableHead>

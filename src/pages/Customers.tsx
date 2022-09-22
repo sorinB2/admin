@@ -8,6 +8,7 @@ import { CustomersTable } from '../components/Customers/CustomersTable';
 
 // Other resources
 import { ROUTES } from '../constants/routes';
+import { STRINGS } from '../constants/strings';
 
 export const Customers = () => {
   const navigate = useNavigate();
@@ -19,11 +20,11 @@ export const Customers = () => {
   return (
     <Card className={classes.wrapper}>
       <Typography variant="h1" className={classes.title}>
-        All customers
+        {STRINGS.ALL_CUSTOMERS}
       </Typography>
       <CustomersTable />
       <Button onClick={addNewCustomerHandler} variant="contained" className={classes.addCustomer}>
-        Add new customer
+        {STRINGS.ADD_NEW_CUSTOMER}
       </Button>
     </Card>
   );

@@ -7,6 +7,7 @@ import { makeStyles } from 'tss-react/mui';
 // Other resources
 import { CustomerData } from '../../types/types';
 import { formatNumber } from '../../utils/formatNumber';
+import { STRINGS } from '../../constants/strings';
 
 export const CustomersTableRow = ({ customerData }: { customerData: CustomerData }) => {
   const { name, location, products, receivables, phone } = { ...customerData };
@@ -42,10 +43,10 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerData
                 <TableHead>
                   <TableRow>
                     <TableCell align="right" className={classes.collapseHeader}>
-                      Product
+                      {STRINGS.PRODUCT}
                     </TableCell>
                     <TableCell align="right" className={classes.collapseHeader}>
-                      Price ($)
+                      {STRINGS.PRICE} (mdl)
                     </TableCell>
                   </TableRow>
                 </TableHead>

@@ -39,6 +39,7 @@ import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 // Other resources
 import { ROUTES } from '../../constants/routes';
 import { STATUS } from '../../constants/statuses';
+import { STRINGS } from '../../constants/strings';
 
 export const AddNewCustomerForm = () => {
   const { classes } = useStyles();
@@ -56,7 +57,7 @@ export const AddNewCustomerForm = () => {
   useEffect(() => {
     if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
     if (status === STATUS.FULFILLED) {
-      dispatch(successSnackBar('Customer added successfully'));
+      dispatch(successSnackBar(STRINGS.CUSTOMER_SUCCESS));
       navigate(ROUTES.CUSTOMERS);
       setTimeout(() => dispatch(discardData()), 1000);
     }
@@ -102,14 +103,14 @@ export const AddNewCustomerForm = () => {
     <form className={classes.form} onSubmit={submitHandler}>
       {isLoading && <CircularProgress className={classes.spinner} />}
       <Typography variant="h1" className={classes.title}>
-        Add new customer
+        {STRINGS.ADD_NEW_CUSTOMER}
       </Typography>
-      <TextField type="text" label="Name" required onChange={e => dispatch(setName(e.target.value))} />
-      <TextField type="text" label="Location" required onChange={e => dispatch(setLocation(e.target.value))} />
-      <TextField type="text" label="Phone number" required onChange={e => dispatch(setPhone(e.target.value))} />
+      <TextField type="text" label={STRINGS.NAME} required onChange={e => dispatch(setName(e.target.value))} />
+      <TextField type="text" label={STRINGS.LOCATION} required onChange={e => dispatch(setLocation(e.target.value))} />
+      <TextField type="text" label={STRINGS.PHONE_NUMBER} required onChange={e => dispatch(setPhone(e.target.value))} />
       <TextField
         type="number"
-        label="Receivables"
+        label={STRINGS.RECEIVABLES}
         required
         onChange={e => dispatch(setReceivables(e.target.value))}
         InputProps={{
@@ -122,9 +123,9 @@ export const AddNewCustomerForm = () => {
             return (
               <Box key={i} className={classes.productsBox}>
                 <FormControl>
-                  <InputLabel id="product">Product</InputLabel>
+                  <InputLabel id="product">{STRINGS.PRODUCT}</InputLabel>
                   <Select
-                    label="Product"
+                    label={STRINGS.PRODUCT}
                     labelId="product"
                     name="product"
                     required
@@ -148,7 +149,7 @@ export const AddNewCustomerForm = () => {
                 </FormControl>
                 <TextField
                   type="number"
-                  label="Price"
+                  label={STRINGS.PRICE}
                   name="price"
                   required
                   value={item.price}
@@ -174,10 +175,10 @@ export const AddNewCustomerForm = () => {
         </IconButton>
       </Box>
       <Button variant="contained" type="submit" disabled={isLoading}>
-        Add customer
+        {STRINGS.ADD_CUSTOMER}
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>
-        Cancel
+        {STRINGS.CANCEL}
       </Button>
     </form>
   );

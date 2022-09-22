@@ -12,6 +12,7 @@ import { errorSnackBar } from '../features/snackBar/slice';
 // Other resources
 import { STATUS } from '../constants/statuses';
 import { ROUTES } from '../constants/routes';
+import { STRINGS } from '../constants/strings';
 
 export const LoginPage = () => {
   const { classes } = useStyles();
@@ -53,32 +54,32 @@ export const LoginPage = () => {
       <form className={classes.form} onSubmit={submitHandler}>
         <Box className={classes.formFields}>
           <Typography variant="h1" className={classes.title}>
-            Sign In
+            {STRINGS.SIGN_IN}
           </Typography>
           <TextField
-            label="Email"
+            label={STRINGS.EMAIL}
             type={'email'}
             required
             error={!emailIsValid || failed}
-            helperText={!emailIsValid ? 'Enter a valid email' : ''}
+            helperText={!emailIsValid ? `${STRINGS.ENTER_VALID_EMAIL}` : ''}
             value={email}
             onChange={event => dispatch(setEmail(event.target.value))}
             InputProps={{ classes: { root: classes.inputProps } }}
             FormHelperTextProps={{ classes: { root: classes.helperText } }}
           />
           <TextField
-            label="Password"
+            label={STRINGS.PASSWORD}
             type={'password'}
             required
             error={!passwordIsValid || failed}
-            helperText={!passwordIsValid ? 'Password should not be empty' : ''}
+            helperText={!passwordIsValid ? `${STRINGS.PASSWORD_NOT_EMPTY}` : ''}
             value={password}
             onChange={event => dispatch(setPassword(event.target.value))}
             InputProps={{ classes: { root: classes.inputProps } }}
             FormHelperTextProps={{ classes: { root: classes.helperText } }}
           />
           <Button className={classes.button} variant="contained" type="submit" disabled={isLoading}>
-            <Typography variant="h5">Sign In</Typography>
+            <Typography variant="h5">{STRINGS.SIGN_IN}</Typography>
           </Button>
         </Box>
       </form>

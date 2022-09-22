@@ -14,6 +14,7 @@ import { getProducts } from '../features/allProducts/slice';
 // Other resources
 import { ROUTES } from '../constants/routes';
 import { STATUS } from '../constants/statuses';
+import { STRINGS } from '../constants/strings';
 
 export const Products = () => {
   const { classes } = useStyles();
@@ -33,56 +34,56 @@ export const Products = () => {
   const columns: GridColDef[] = [
     {
       field: 'brand',
-      headerName: 'Brand',
+      headerName: `${STRINGS.BRAND}`,
       flex: 130,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
       disableColumnMenu: true,
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: `${STRINGS.NAME}`,
       flex: 130,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'wipes',
-      headerName: 'Nr. of wipes',
+      headerName: `${STRINGS.NR_WIPES}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'stock',
-      headerName: 'Stock',
+      headerName: `${STRINGS.STOCK}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'density',
-      headerName: 'Density',
+      headerName: `${STRINGS.DENSITY}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'width',
-      headerName: 'Width',
+      headerName: `${STRINGS.WIDTH}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'fragrance',
-      headerName: 'Fragrance',
+      headerName: `${STRINGS.FRAGRANCE}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
     },
     {
       field: 'material',
-      headerName: 'Material',
+      headerName: `${STRINGS.MATERIAL}`,
       flex: 100,
       disableColumnMenu: true,
       renderHeader: (params: GridColumnHeaderParams) => renderHeader(params),
@@ -96,7 +97,7 @@ export const Products = () => {
   return (
     <Card className={classes.wrapper}>
       <Typography variant="h1" className={classes.title}>
-        All products
+        {STRINGS.ALL_PRODUCTS}
       </Typography>
       <DataGrid
         className={classes.dataGrid}
@@ -108,7 +109,7 @@ export const Products = () => {
         loading={isLoading}
       />
       <Button variant="contained" onClick={addNewProductHandler} className={classes.addProduct}>
-        Add new product
+        {STRINGS.ADD_NEW_PRODUCT}
       </Button>
     </Card>
   );

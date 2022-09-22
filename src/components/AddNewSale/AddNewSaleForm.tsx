@@ -45,6 +45,7 @@ import {
 // Other resources
 import { STATUS } from '../../constants/statuses';
 import { ROUTES } from '../../constants/routes';
+import { STRINGS } from '../../constants/strings';
 
 export const AddNewSaleForm = () => {
   const { classes } = useStyles();
@@ -63,7 +64,7 @@ export const AddNewSaleForm = () => {
   useEffect(() => {
     if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
     if (status === STATUS.FULFILLED) {
-      dispatch(successSnackBar('Sale added successfully'));
+      dispatch(successSnackBar(STRINGS.SALE_SUCCESS));
       navigate(ROUTES.SALES);
       setTimeout(() => dispatch(discardData()), 1000);
     }
@@ -106,10 +107,10 @@ export const AddNewSaleForm = () => {
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      <Typography>Add new sale</Typography>
+      <Typography>{STRINGS.ADD_NEW_SALE}</Typography>
       <FormControl>
         <InputLabel id="customer">Customer</InputLabel>
-        <Select label="Customer" labelId="customer" name="customer" required value={sale.customer.name}>
+        <Select label={STRINGS.CUSTOMER} labelId="customer" name="customer" required value={sale.customer.name}>
           {allCustomers.map(customer => {
             return (
               <MenuItem
@@ -128,16 +129,16 @@ export const AddNewSaleForm = () => {
         </Select>
       </FormControl>
       <Box className={classes.orders}>
-        <Typography>Order</Typography>
+        <Typography>{STRINGS.ORDER}</Typography>
         <Box className={classes.saleForm}>
           <Box className={classes.saleWrapper}>
             {sale.order.map((orderItem, i) => {
               return (
                 <Box className={classes.saleBox} key={i}>
                   <FormControl>
-                    <InputLabel id="product">Product</InputLabel>
+                    <InputLabel id="product">{STRINGS.PRODUCT}</InputLabel>
                     <Select
-                      label="Product"
+                      label={STRINGS.PRODUCT}
                       labelId="product"
                       name="product"
                       required
@@ -165,7 +166,7 @@ export const AddNewSaleForm = () => {
                   </FormControl>
                   <TextField
                     type="text"
-                    label="Price"
+                    label={STRINGS.PRICE}
                     value={sale.order[i].product.price}
                     InputProps={{
                       endAdornment: <InputAdornment position="end">mdl</InputAdornment>,
@@ -174,12 +175,13 @@ export const AddNewSaleForm = () => {
                   <Box>
                     <TextField
                       type="number"
-                      label="Units"
+                      label={STRINGS.UNITS}
                       required
                       autoComplete="off"
                       value={sale.order[i].units}
                       helperText={
-                        sale.order[i].product.product && `Stock ${+sale.order[i].product.stock - +sale.order[i].units}`
+                        sale.order[i].product.product &&
+                        `${STRINGS.STOCK} ${+sale.order[i].product.stock - +sale.order[i].units}`
                       }
                       onChange={e => {
                         dispatch(setProductUnits({ value: e.target.value, i }));
@@ -190,7 +192,7 @@ export const AddNewSaleForm = () => {
                   </Box>
                   <TextField
                     type="text"
-                    label="Income"
+                    label={STRINGS.INCOME}
                     value={sale.order[i].income.toFixed(2)}
                     InputProps={{
                       endAdornment: <InputAdornment position="end">mdl</InputAdornment>,
@@ -214,21 +216,21 @@ export const AddNewSaleForm = () => {
             <AddOutlinedIcon />
           </IconButton>
         </Box>
-        <TextField type="text" label="Total Income" value={sale.totalIncome.toFixed(2)} />
+        <TextField type="text" label={STRINGS.TOTAL_INCOME} value={sale.totalIncome.toFixed(2)} />
         <FormControl>
           <InputLabel id="status">Status</InputLabel>
-          <Select label="Status" labelId="status" name="status" required value={sale.status}>
+          <Select label={STRINGS.STATUS} labelId="status" name="status" required value={sale.status}>
             <MenuItem value="Delivered" onClick={() => dispatch(setStatus('Delivered'))}>
-              Delivered
+              {STRINGS.DELIVERED}
             </MenuItem>
             <MenuItem value="Pending" onClick={() => dispatch(setStatus('Pending'))}>
-              Pending
+              {STRINGS.PENDING}
             </MenuItem>
           </Select>
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="Date"
+            label={STRINGS.DATE}
             value={sale.date}
             inputFormat="DD.MM.YYYY"
             onChange={newValue => {
@@ -239,10 +241,10 @@ export const AddNewSaleForm = () => {
         </LocalizationProvider>
       </Box>
       <Button variant="contained" type="submit">
-        Submit
+        {STRINGS.ADD_SALE}
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>
-        Cancel
+        {STRINGS.CANCEL}
       </Button>
     </form>
   );

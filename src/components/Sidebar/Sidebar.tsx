@@ -14,6 +14,7 @@ import { NavigationItem } from './NavigationItem';
 
 // Other resources
 import { ROUTES } from '../../constants/routes';
+import { STRINGS } from '../../constants/strings';
 
 export const Sidebar = () => {
   const { classes } = useStyles();
@@ -28,14 +29,14 @@ export const Sidebar = () => {
     <Card className={classes.sidebar}>
       <Typography className={classes.brandName}>Admin Panel</Typography>
       <List className={classes.menuItems}>
-        <NavigationItem name={'Dashboard'} link={ROUTES.DASHBOARD} icon={<GridViewOutlinedIcon />} />
-        <NavigationItem name={'Sales'} link={ROUTES.SALES} icon={<AccountBalanceWalletOutlinedIcon />} />
-        <NavigationItem name={'Products'} link={ROUTES.PRODUCTS} icon={<LocalMallOutlinedIcon />} />
-        <NavigationItem name={'Customers'} link={ROUTES.CUSTOMERS} icon={<BusinessCenterOutlinedIcon />} />
-        <NavigationItem name={'Production'} link={ROUTES.PRODUCTION} icon={<InventoryOutlinedIcon />} />
+        <NavigationItem name={STRINGS.DASHBOARD} link={ROUTES.DASHBOARD} icon={<GridViewOutlinedIcon />} />
+        <NavigationItem name={STRINGS.SALES} link={ROUTES.SALES} icon={<AccountBalanceWalletOutlinedIcon />} />
+        <NavigationItem name={STRINGS.PRODUCTS} link={ROUTES.PRODUCTS} icon={<LocalMallOutlinedIcon />} />
+        <NavigationItem name={STRINGS.CUSTOMERS} link={ROUTES.CUSTOMERS} icon={<BusinessCenterOutlinedIcon />} />
+        <NavigationItem name={STRINGS.PRODUCTION} link={ROUTES.PRODUCTION} icon={<InventoryOutlinedIcon />} />
       </List>
       <Box onClick={clickHandler} className={classes.logOut}>
-        <NavigationItem name={'Log out'} icon={<LogoutOutlinedIcon />} />
+        <NavigationItem name={STRINGS.LOG_OUT} icon={<LogoutOutlinedIcon />} />
       </Box>
     </Card>
   );

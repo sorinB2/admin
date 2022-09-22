@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Card, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
+// Other resources
 import { ROUTES } from '../constants/routes';
+import { STRINGS } from '../constants/strings';
 
 export const Sales = () => {
   const navigate = useNavigate();
@@ -12,9 +15,9 @@ export const Sales = () => {
 
   return (
     <Card>
-      <Typography>This is the sales page</Typography>
+      <Typography>{STRINGS.ALL_SALES}</Typography>
       <Button onClick={addNewSaleHandler} variant="outlined">
-        Add new sale
+        {STRINGS.ADD_NEW_SALE}
       </Button>
     </Card>
   );
