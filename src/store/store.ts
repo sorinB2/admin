@@ -9,6 +9,7 @@ import { allProductsReducer } from '../features/allProducts/slice';
 import { newCustomerReducer } from '../features/newCustomer/slice';
 import { allCustomersReducer } from '../features/allCustomers/slice';
 import { newSaleReducer } from '../features/newSale/slice';
+import { allSalesReducer } from '../features/allSales/slice';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     newCustomer: newCustomerReducer,
     allCustomers: allCustomersReducer,
     newSale: newSaleReducer,
+    allSales: allSalesReducer,
   },
 });
 

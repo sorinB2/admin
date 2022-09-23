@@ -54,7 +54,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Rubik',
     fontFamilyInter: 'Inter',
     h1: {
       fontSize: '24px',

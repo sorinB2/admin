@@ -36,6 +36,7 @@ export interface SaleData {
   totalIncome: number;
   paid: boolean;
   status: string;
+  id?: string;
 }
 
 export interface OrderData {
