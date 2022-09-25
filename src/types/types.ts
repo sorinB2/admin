@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface ProductData {
   brand: string;
   name: string;
@@ -43,4 +45,15 @@ export interface OrderData {
   product: SaleProduct;
   units: string;
   income: number;
+}
+
+export interface SaleModalProps {
+  open: boolean;
+  onClose: () => void;
+  sale: SaleData | undefined;
+}
+
+export interface SaleCardProps {
+  sale: SaleData;
+  onClick: (e: React.MouseEvent) => void;
 }
