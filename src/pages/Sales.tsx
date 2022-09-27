@@ -14,7 +14,7 @@ import { getSales } from '../features/allSales/slice';
 // Other resources
 import { ROUTES } from '../constants/routes';
 import { STRINGS } from '../constants/strings';
-import { SaleData } from '../types/types';
+import { SaleFetchData } from '../types/types';
 
 export const Sales = () => {
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ export const Sales = () => {
   const { classes } = useStyles();
   const { allSales } = useAppSelector(state => state.allSales);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [selectedSale, setSelectedSale] = useState<SaleData>();
+  const [selectedSale, setSelectedSale] = useState<SaleFetchData>(allSales[0]);
+  const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {
     dispatch(getSales());
@@ -30,7 +31,9 @@ export const Sales = () => {
 
   const saleCardClickHandler = (e: MouseEvent) => {
     const sale = allSales.filter(item => item.id === e.currentTarget.id);
+    const i = allSales.findIndex(item => item.id === e.currentTarget.id);
     setSelectedSale(sale[0]);
+    setIndex(i);
     setIsVisible(true);
   };
 
@@ -40,7 +43,7 @@ export const Sales = () => {
 
   return (
     <Card className={classes.wrapper}>
-      <SaleModal open={isVisible} onClose={() => setIsVisible(false)} sale={selectedSale} />
+      <SaleModal open={isVisible} onClose={() => setIsVisible(false)} sale={selectedSale} index={index} />
       <Typography variant="h1" className={classes.title}>
         {STRINGS.ALL_SALES}
       </Typography>
@@ -74,7 +77,6 @@ const useStyles = makeStyles()(theme => ({
   },
   sales: {
     display: 'grid',
-    gridGap: theme.spacing(1.5),
   },
   addSale: {
     position: 'absolute',

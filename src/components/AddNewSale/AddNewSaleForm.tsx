@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -55,6 +56,7 @@ export const AddNewSaleForm = () => {
   const { allProducts } = useAppSelector(state => state.allProducts);
   const { sale, status, error } = useAppSelector(state => state.newSale);
   const [selectedProducts, setSelectedProducts] = useState<(string | undefined)[]>([]);
+  const isLoading = status === STATUS.PENDING;
 
   useEffect(() => {
     dispatch(getCustomers());
@@ -94,20 +96,21 @@ export const AddNewSaleForm = () => {
     event.preventDefault();
     dispatch(createNewSale(sale));
 
-    if (sale.status === 'Delivered') {
-      const receivables = (+sale.customer.receivables + sale.totalIncome).toFixed(2);
-      dispatch(addReceivables({ uid: sale.customer.id as string, data: receivables }));
+    const receivables = (+sale.customer.receivables + sale.totalIncome).toFixed(2);
+    dispatch(addReceivables({ uid: sale.customer.id as string, data: receivables }));
 
-      sale.order.forEach(product => {
-        const stock = (+product.product.stock - +product.units).toFixed();
-        dispatch(updateProduct({ uid: product.product.id, data: stock }));
-      });
-    }
+    sale.order.forEach(product => {
+      const stock = (+product.product.stock - +product.units).toFixed();
+      dispatch(updateProduct({ uid: product.product.id, data: stock }));
+    });
   };
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      <Typography>{STRINGS.ADD_NEW_SALE}</Typography>
+      {isLoading && <CircularProgress className={classes.spinner} />}
+      <Typography variant="h1" className={classes.title}>
+        {STRINGS.ADD_NEW_SALE}
+      </Typography>
       <FormControl>
         <InputLabel id="customer">Customer</InputLabel>
         <Select label={STRINGS.CUSTOMER} labelId="customer" name="customer" required value={sale.customer.name}>
@@ -240,7 +243,7 @@ export const AddNewSaleForm = () => {
           />
         </LocalizationProvider>
       </Box>
-      <Button variant="contained" type="submit">
+      <Button variant="contained" type="submit" disabled={isLoading}>
         {STRINGS.ADD_SALE}
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>
@@ -279,5 +282,15 @@ const useStyles = makeStyles()(theme => ({
   },
   deleteSale: {
     height: theme.spacing(6.75),
+  },
+  title: {
+    fontWeight: '600',
+    paddingBottom: '15px',
+  },
+  spinner: {
+    zIndex: '10',
+    position: 'absolute',
+    bottom: 'calc(50vh - 20px)',
+    right: 'calc(50vw - 20px)',
   },
 }));

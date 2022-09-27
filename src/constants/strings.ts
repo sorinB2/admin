@@ -46,4 +46,5 @@ export const STRINGS = {
   CUSTOMERS: 'Customers',
   PRODUCTION: 'Production',
   LOG_OUT: 'Log out',
+  MARK_AS_DELIVERED: 'Mark as delivered',
 };

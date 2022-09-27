@@ -17,7 +17,7 @@ export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
     <Box id={sale.id} className={classes.saleCard} onClick={onClick}>
       <Box className={classes.nameWrapper}>
         <ShoppingCartOutlinedIcon className={classes.cartIcon} />
-        <Typography className={classes.name} variant="h4">
+        <Typography className={classes.name} variant="h3">
           {sale.customer.name}
         </Typography>
       </Box>
@@ -27,20 +27,27 @@ export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
       <Typography className={classes.date} variant="h5">
         {formatDate(new Date(sale.date))}
       </Typography>
+      <Typography className={sale.status === 'Pending' ? classes.statusPending : classes.statusDelivered}>
+        {sale.status}
+      </Typography>
     </Box>
   );
 };
 
 const useStyles = makeStyles()(theme => ({
   saleCard: {
-    borderRadius: '10px',
-    width: '450px',
+    borderRadius: '5px',
+    '&:nth-of-type(2n+1)': {
+      backgroundColor: theme.palette.common.lightBackground,
+    },
+    width: '550px',
     height: 'auto',
     padding: theme.spacing(1.5),
     boxSizing: 'border-box',
     display: 'grid',
-    gridTemplateColumns: '2fr auto 1fr',
-    backgroundColor: '#dcfce8',
+    gridTemplateColumns: '1.5fr 1.5fr 1fr 0.8fr',
+    gridGap: theme.spacing(1),
+    alignItems: 'center',
     cursor: 'pointer',
     '&:hover': {
       transform: 'scale(1.005)',
@@ -54,10 +61,10 @@ const useStyles = makeStyles()(theme => ({
   cartIcon: {
     fill: theme.palette.common.black,
     paddingRight: theme.spacing(0.5),
+    alignSelf: 'center',
   },
   name: {
     color: theme.palette.common.black,
-    fontSize: '18px',
     fontWeight: '500',
   },
   income: {
@@ -69,5 +76,13 @@ const useStyles = makeStyles()(theme => ({
     color: theme.palette.common.black,
     fontWeight: '400',
     justifySelf: 'end',
+  },
+  statusPending: {
+    justifySelf: 'end',
+    color: '#EE3349',
+  },
+  statusDelivered: {
+    justifySelf: 'end',
+    color: theme.palette.secondary.main,
   },
 }));

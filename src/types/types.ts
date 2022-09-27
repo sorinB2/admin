@@ -38,7 +38,10 @@ export interface SaleData {
   totalIncome: number;
   paid: boolean;
   status: string;
-  id?: string;
+}
+
+export interface SaleFetchData extends SaleData {
+  id: string;
 }
 
 export interface OrderData {
@@ -50,10 +53,11 @@ export interface OrderData {
 export interface SaleModalProps {
   open: boolean;
   onClose: () => void;
-  sale: SaleData | undefined;
+  sale: SaleFetchData;
+  index: number;
 }
 
 export interface SaleCardProps {
-  sale: SaleData;
+  sale: SaleFetchData;
   onClick: (e: React.MouseEvent) => void;
 }

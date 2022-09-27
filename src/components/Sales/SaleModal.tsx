@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Box,
+  Button,
   Modal,
   Paper,
   Table,
@@ -12,17 +13,30 @@ import {
   Typography,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 
 // Actions
 import { formatNumber } from '../../utils/formatNumber';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { updateDeliveryStatus, updateStatus } from '../../features/allSales/slice';
+import { formatDate } from '../../utils/formatDate';
 
 // Other resources
 import { SaleModalProps } from '../../types/types';
-import { formatDate } from '../../utils/formatDate';
 import { STRINGS } from '../../constants/strings';
+import { STATUS } from '../../constants/statuses';
 
-export const SaleModal = ({ open, onClose, sale }: SaleModalProps) => {
+export const SaleModal = ({ open, onClose, sale, index }: SaleModalProps) => {
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
+  const { allSales, status } = useAppSelector(state => state.allSales);
+  const isLoading = status === STATUS.PENDING;
+
+  const setDeliveredStatusHandler = () => {
+    dispatch(updateDeliveryStatus({ uid: sale?.id, data: 'Delivered' }));
+    dispatch(updateStatus({ index, value: 'Delivered' }));
+  };
+
   return (
     <Modal open={open} onClose={onClose} className={classes.modal}>
       <Box className={classes.wrapper}>
@@ -58,16 +72,33 @@ export const SaleModal = ({ open, onClose, sale }: SaleModalProps) => {
           </Table>
         </TableContainer>
         <Box className={classes.bottomWrapper}>
-          <Typography variant="h5" className={classes.orderDate}>
-            {sale && formatDate(new Date(sale?.date))}
-          </Typography>
           <Box>
-            <Typography className={classes.totalIncomeTitle}>Total Income</Typography>
+            <Box className={classes.deliveryStatus}>
+              <LocalShippingOutlinedIcon className={classes.deliveryIcon} />
+              <Typography className={classes.saleStatus}>{allSales[index]?.status}</Typography>
+            </Box>
+            <Typography variant="h5" className={classes.orderDate}>
+              {sale && formatDate(new Date(sale?.date))}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography className={classes.totalIncomeTitle}>{STRINGS.TOTAL_INCOME}</Typography>
             <Typography variant="h1" className={classes.orderTotalIncome}>
               {sale && `${formatNumber(+sale.totalIncome.toFixed(2))} lei`}
             </Typography>
           </Box>
         </Box>
+        {allSales[index]?.status === 'Pending' && (
+          <Button
+            className={classes.deliveredButton}
+            onClick={setDeliveredStatusHandler}
+            variant="outlined"
+            disabled={isLoading}
+            endIcon={<LocalShippingOutlinedIcon />}
+          >
+            {STRINGS.MARK_AS_DELIVERED}
+          </Button>
+        )}
       </Box>
     </Modal>
   );
@@ -115,5 +146,21 @@ const useStyles = makeStyles()(theme => ({
   },
   tableCell: {
     fontSize: '14px',
+  },
+  deliveredButton: {
+    display: 'flex',
+    margin: 'auto',
+  },
+  deliveryStatus: {
+    display: 'grid',
+    gridTemplateColumns: '30px auto',
+    marginBottom: theme.spacing(1),
+    alignItems: 'center',
+  },
+  deliveryIcon: {
+    fill: theme.palette.primary.main,
+  },
+  saleStatus: {
+    color: theme.palette.primary.main,
   },
 }));
