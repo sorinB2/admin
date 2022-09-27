@@ -5,7 +5,7 @@ import { getAllProducts } from '../../services/getAllProducts';
 
 // Other resources
 import { STATUS } from '../../constants/statuses';
-import { ProductData } from '../../types/types';
+import { ProductFetchData } from '../../types/types';
 
 const initialState: AllProducts = {
   status: '',
@@ -42,5 +42,5 @@ export const allProductsReducer = allProductsSlice.reducer;
 interface AllProducts {
   status: string;
   error: string;
-  allProducts: ProductData[];
+  allProducts: ProductFetchData[];
 }

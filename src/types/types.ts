@@ -9,7 +9,10 @@ export interface ProductData {
   width: number;
   fragrance: string;
   material: string;
-  id?: string;
+}
+
+export interface ProductFetchData extends ProductData {
+  id: string;
 }
 
 export interface Product {
@@ -28,11 +31,14 @@ export interface CustomerData {
   phone: string;
   receivables: number;
   products: Product[];
-  id?: string;
+}
+
+export interface CustomerFetchData extends CustomerData {
+  id: string;
 }
 
 export interface SaleData {
-  customer: CustomerData;
+  customer: CustomerFetchData;
   order: OrderData[];
   date: string;
   totalIncome: number;

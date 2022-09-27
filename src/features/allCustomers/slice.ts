@@ -5,7 +5,7 @@ import { getAllCustomers } from '../../services/getAllCustomers';
 
 // Other resources
 import { STATUS } from '../../constants/statuses';
-import { CustomerData } from '../../types/types';
+import { CustomerFetchData } from '../../types/types';
 
 const initialState: AllCustomers = {
   status: '',
@@ -42,5 +42,5 @@ export const allCustomersReducer = allCustomersSlice.reducer;
 interface AllCustomers {
   status: string;
   error: string;
-  allCustomers: CustomerData[];
+  allCustomers: CustomerFetchData[];
 }
