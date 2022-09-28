@@ -67,3 +67,9 @@ export interface SaleCardProps {
   sale: SaleFetchData;
   onClick: (e: React.MouseEvent) => void;
 }
+
+export interface AddNewCustomerFormProps {
+  submitHandler: (event: React.FormEvent) => void;
+  buttonTitle: string;
+  title: string;
+}

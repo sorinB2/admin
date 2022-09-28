@@ -39,6 +39,7 @@ export const CustomersTable = () => {
             <TableCell align="center" className={classes.tableHeader}>
               {STRINGS.RECEIVABLES}
             </TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>

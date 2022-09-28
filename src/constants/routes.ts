@@ -8,5 +8,6 @@ export const ROUTES = {
   ADD_NEW_PRODUCT: '/products/add-new-product',
   CUSTOMERS: '/customers',
   ADD_NEW_CUSTOMER: '/customers/add-new-customer',
+  EDIT_CUSTOMER: '/customers/edit-customer',
   PRODUCTION: '/production',
 };

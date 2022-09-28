@@ -10,6 +10,7 @@ import { STATUS } from '../../constants/statuses';
 const initialState: NewCustomer = {
   status: '',
   error: '',
+  selectedProducts: [],
   customer: {
     name: '',
     location: '',
@@ -28,6 +29,9 @@ const newCustomerSlice = createSlice({
   name: 'newCustomer',
   initialState,
   reducers: {
+    setCustomer: (state, action) => {
+      state.customer = action.payload;
+    },
     setName: (state, action) => {
       state.customer.name = action.payload;
     },
@@ -42,6 +46,9 @@ const newCustomerSlice = createSlice({
     },
     addProduct: state => {
       state.customer.products = [...state.customer.products, { product: '', price: '', id: '' }];
+    },
+    setSelectedProducts: (state, action) => {
+      state.selectedProducts = action.payload;
     },
     removeProduct: (state, action) => {
       const list = [...state.customer.products];
@@ -65,6 +72,7 @@ const newCustomerSlice = createSlice({
       state.customer = initialState.customer;
       state.status = initialState.status;
       state.error = initialState.error;
+      state.selectedProducts = initialState.selectedProducts;
     },
   },
   extraReducers: builder => {
@@ -82,12 +90,14 @@ const newCustomerSlice = createSlice({
 });
 
 export const {
+  setCustomer,
   setName,
   setLocation,
   setPhone,
   setReceivables,
   setProduct,
   addProduct,
+  setSelectedProducts,
   removeProduct,
   setProductPrice,
   setProductType,
@@ -99,5 +109,6 @@ export const newCustomerReducer = newCustomerSlice.reducer;
 interface NewCustomer {
   status: string;
   error: string;
+  selectedProducts: string[];
   customer: CustomerData;
 }

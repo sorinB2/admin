@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -20,48 +20,33 @@ import { makeStyles } from 'tss-react/mui';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { getProducts } from '../../features/allProducts/slice';
 import {
   addProduct,
-  createNewCustomer,
   discardData,
   removeProduct,
   setLocation,
   setName,
   setPhone,
+  setSelectedProducts,
   setProductId,
   setProductPrice,
   setProductType,
   setReceivables,
 } from '../../features/newCustomer/slice';
-import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 
 // Other resources
 import { ROUTES } from '../../constants/routes';
 import { STATUS } from '../../constants/statuses';
 import { STRINGS } from '../../constants/strings';
+import { AddNewCustomerFormProps } from '../../types/types';
 
-export const AddNewCustomerForm = () => {
+export const AddNewCustomerForm = ({ submitHandler, buttonTitle, title }: AddNewCustomerFormProps) => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { allProducts } = useAppSelector(state => state.allProducts);
-  const { customer, status, error } = useAppSelector(state => state.newCustomer);
-  const [selectedProducts, setSelectedProducts] = useState<(string | undefined)[]>([]);
+  const { customer, status, selectedProducts } = useAppSelector(state => state.newCustomer);
   const isLoading = status === STATUS.PENDING;
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
-  useEffect(() => {
-    if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
-    if (status === STATUS.FULFILLED) {
-      dispatch(successSnackBar(STRINGS.CUSTOMER_SUCCESS));
-      navigate(ROUTES.CUSTOMERS);
-      setTimeout(() => dispatch(discardData()), 1000);
-    }
-  }, [status]);
 
   const cancelHandler = () => {
     navigate(ROUTES.CUSTOMERS);
@@ -83,33 +68,47 @@ export const AddNewCustomerForm = () => {
     dispatch(setProductId({ value, i }));
     if (customer.products[i].id) {
       const arr = selectedProducts.filter(item => item !== customer.products[i].id);
-      setSelectedProducts([...arr, value]);
+      dispatch(setSelectedProducts([...arr, value]));
     } else {
-      setSelectedProducts(prev => [...prev, value]);
+      dispatch(setSelectedProducts([...selectedProducts, value]));
     }
   };
 
   const removeProductListId = (id: string) => {
     const list = selectedProducts.filter(item => item !== id);
-    setSelectedProducts(list);
-  };
-
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    dispatch(createNewCustomer(customer));
+    dispatch(setSelectedProducts(list));
   };
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       {isLoading && <CircularProgress className={classes.spinner} />}
       <Typography variant="h1" className={classes.title}>
-        {STRINGS.ADD_NEW_CUSTOMER}
+        {title}
       </Typography>
-      <TextField type="text" label={STRINGS.NAME} required onChange={e => dispatch(setName(e.target.value))} />
-      <TextField type="text" label={STRINGS.LOCATION} required onChange={e => dispatch(setLocation(e.target.value))} />
-      <TextField type="text" label={STRINGS.PHONE_NUMBER} required onChange={e => dispatch(setPhone(e.target.value))} />
+      <TextField
+        type="text"
+        value={customer.name}
+        label={STRINGS.NAME}
+        required
+        onChange={e => dispatch(setName(e.target.value))}
+      />
+      <TextField
+        type="text"
+        value={customer.location}
+        label={STRINGS.LOCATION}
+        required
+        onChange={e => dispatch(setLocation(e.target.value))}
+      />
+      <TextField
+        type="text"
+        value={customer.phone}
+        label={STRINGS.PHONE_NUMBER}
+        required
+        onChange={e => dispatch(setPhone(e.target.value))}
+      />
       <TextField
         type="number"
+        value={customer.receivables}
         label={STRINGS.RECEIVABLES}
         required
         onChange={e => dispatch(setReceivables(e.target.value))}
@@ -175,7 +174,7 @@ export const AddNewCustomerForm = () => {
         </IconButton>
       </Box>
       <Button variant="contained" type="submit" disabled={isLoading}>
-        {STRINGS.ADD_CUSTOMER}
+        {buttonTitle}
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>
         {STRINGS.CANCEL}

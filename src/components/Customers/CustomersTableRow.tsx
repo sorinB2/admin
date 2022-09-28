@@ -1,18 +1,63 @@
 import React, { useState } from 'react';
-import { IconButton, Table, TableHead, TableBody, TableRow, TableCell, Collapse, Box } from '@mui/material';
+import {
+  IconButton,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Collapse,
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { makeStyles } from 'tss-react/mui';
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import { useNavigate } from 'react-router-dom';
+
+// Actions
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { setCustomer } from '../../features/newCustomer/slice';
+import { setCustomerId } from '../../features/editCustomer/slice';
+import { formatNumber } from '../../utils/formatNumber';
+import { getProducts } from '../../features/allProducts/slice';
 
 // Other resources
-import { CustomerData } from '../../types/types';
-import { formatNumber } from '../../utils/formatNumber';
+import { CustomerFetchData } from '../../types/types';
 import { STRINGS } from '../../constants/strings';
+import { ROUTES } from '../../constants/routes';
 
-export const CustomersTableRow = ({ customerData }: { customerData: CustomerData }) => {
-  const { name, location, products, receivables, phone } = { ...customerData };
-  const [open, setOpen] = useState<boolean>(false);
+export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetchData }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { classes, cx } = useStyles();
+  const { name, location, products, receivables, phone, id } = { ...customerData };
+  const [open, setOpen] = useState<boolean>(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const optionsOpen = Boolean(anchorEl);
+
+  const optionsCloseHandler = () => {
+    setAnchorEl(null);
+  };
+
+  const editCustomerHandler = async () => {
+    dispatch(setCustomer({ name, location, phone, receivables, products }));
+    dispatch(setCustomerId(id));
+    await dispatch(getProducts());
+    navigate(ROUTES.EDIT_CUSTOMER);
+  };
+
+  const deleteCustomerHandler = () => {
+    setAnchorEl(null);
+  };
+
+  const optionsClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   return (
     <>
@@ -33,6 +78,35 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerData
         </TableCell>
         <TableCell align="right" className={cx(classes.tableCell, classes.receivables)}>
           {formatNumber(receivables)}
+        </TableCell>
+        <TableCell align="right" className={classes.buttonCell}>
+          <Button
+            className={classes.optionsButton}
+            id={id}
+            aria-controls={optionsOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={optionsOpen ? 'true' : undefined}
+            onClick={optionsClickHandler}
+          >
+            <MoreVertOutlinedIcon />
+          </Button>
+          <Menu
+            className={classes.optionsMenu}
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={optionsOpen}
+            onClose={optionsCloseHandler}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem className={classes.optionsMenuItem} onClick={editCustomerHandler}>
+              Edit
+            </MenuItem>
+            <MenuItem className={classes.optionsMenuItem} onClick={deleteCustomerHandler}>
+              Delete
+            </MenuItem>
+          </Menu>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -96,5 +170,24 @@ const useStyles = makeStyles()(theme => ({
   collapseData: {
     fontSize: '13px',
     color: '#000000DE',
+  },
+  buttonCell: {
+    width: '36px',
+  },
+  optionsButton: {
+    width: '36px',
+    height: '36px',
+    borderRadius: '50%',
+  },
+  optionsMenu: {
+    '& .MuiPaper-root': {
+      border: `0.5px solid ${theme.palette.primary.light}`,
+    },
+    '& .MuiMenu-list': {
+      padding: `${theme.spacing(1)} 0`,
+    },
+  },
+  optionsMenuItem: {
+    padding: `${theme.spacing(0.5)} ${theme.spacing(3)}`,
   },
 }));
