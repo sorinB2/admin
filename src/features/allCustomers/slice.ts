@@ -21,7 +21,11 @@ export const getCustomers = createAsyncThunk('getCustomers/allCustomers', async 
 const allCustomersSlice = createSlice({
   name: 'allCustomers',
   initialState,
-  reducers: {},
+  reducers: {
+    setCustomers: (state, action) => {
+      state.allCustomers = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(getCustomers.pending, state => {
       state.status = STATUS.PENDING;
@@ -37,6 +41,7 @@ const allCustomersSlice = createSlice({
   },
 });
 
+export const { setCustomers } = allCustomersSlice.actions;
 export const allCustomersReducer = allCustomersSlice.reducer;
 
 interface AllCustomers {

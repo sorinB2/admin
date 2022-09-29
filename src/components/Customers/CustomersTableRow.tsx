@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IconButton,
   Table,
@@ -19,22 +19,28 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { useNavigate } from 'react-router-dom';
 
 // Actions
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setCustomer } from '../../features/newCustomer/slice';
 import { setCustomerId } from '../../features/editCustomer/slice';
 import { formatNumber } from '../../utils/formatNumber';
 import { getProducts } from '../../features/allProducts/slice';
+import { deleteCustomer, setDeletedCustomerId } from '../../features/deleteCustomer/slice';
+import { setCustomers } from '../../features/allCustomers/slice';
 
 // Other resources
 import { CustomerFetchData } from '../../types/types';
 import { STRINGS } from '../../constants/strings';
 import { ROUTES } from '../../constants/routes';
+import { STATUS } from '../../constants/statuses';
 
 export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetchData }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { classes, cx } = useStyles();
   const { name, location, products, receivables, phone, id } = { ...customerData };
+  const { allCustomers } = useAppSelector(state => state.allCustomers);
+  const { status: deleteStatus } = useAppSelector(state => state.deleteCustomer);
+  const { deletedCustomerId } = useAppSelector(state => state.deleteCustomer);
   const [open, setOpen] = useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,7 +57,14 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
     navigate(ROUTES.EDIT_CUSTOMER);
   };
 
+  useEffect(() => {
+    const customers = allCustomers.filter(item => item.id !== deletedCustomerId);
+    deleteStatus === STATUS.FULFILLED && dispatch(setCustomers(customers));
+  }, [deleteStatus]);
+
   const deleteCustomerHandler = () => {
+    dispatch(deleteCustomer(id));
+    dispatch(setDeletedCustomerId(id));
     setAnchorEl(null);
   };
 
@@ -101,10 +114,10 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
             }}
           >
             <MenuItem className={classes.optionsMenuItem} onClick={editCustomerHandler}>
-              Edit
+              {STRINGS.EDIT}
             </MenuItem>
             <MenuItem className={classes.optionsMenuItem} onClick={deleteCustomerHandler}>
-              Delete
+              {STRINGS.DELETE}
             </MenuItem>
           </Menu>
         </TableCell>
