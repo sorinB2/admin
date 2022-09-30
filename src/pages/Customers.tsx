@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Card, CircularProgress, Typography } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 
 // Components
 import { CustomersTable } from '../components/Customers/CustomersTable';
+import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 
 // Actions
 import { useAppSelector } from '../hooks/reduxHooks';
@@ -26,7 +27,7 @@ export const Customers = () => {
   };
   return (
     <>
-      {isLoading && <CircularProgress className={classes.spinner} />}
+      {isLoading && <LoadingSpinner />}
       <Card className={classes.wrapper}>
         <Typography variant="h1" className={classes.title}>
           {STRINGS.ALL_CUSTOMERS}
@@ -58,11 +59,5 @@ const useStyles = makeStyles()(theme => ({
     '&:hover': {
       background: theme.palette.secondary.main,
     },
-  },
-  spinner: {
-    zIndex: '10',
-    position: 'absolute',
-    bottom: 'calc(50vh - 20px)',
-    right: 'calc(50vw - 20px)',
   },
 }));

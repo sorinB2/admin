@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box,
   Button,
-  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -17,6 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { makeStyles } from 'tss-react/mui';
+
+// Components
+import { LoadingSpinner } from '../UI/LoadingSpinner';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -81,7 +83,7 @@ export const AddNewCustomerForm = ({ submitHandler, buttonTitle, title }: AddNew
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      {isLoading && <CircularProgress className={classes.spinner} />}
+      {isLoading && <LoadingSpinner />}
       <Typography variant="h1" className={classes.title}>
         {title}
       </Typography>
@@ -211,11 +213,5 @@ const useStyles = makeStyles()(theme => ({
   title: {
     fontWeight: '600',
     paddingBottom: '15px',
-  },
-  spinner: {
-    zIndex: '10',
-    position: 'absolute',
-    bottom: 'calc(50vh - 20px)',
-    right: 'calc(50vw - 20px)',
   },
 }));

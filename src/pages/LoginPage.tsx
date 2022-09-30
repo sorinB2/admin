@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
+
+// Components
+import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
@@ -50,7 +53,7 @@ export const LoginPage = () => {
 
   return (
     <Box className={classes.wrapper}>
-      {isLoading && <CircularProgress className={classes.spinner} />}
+      {isLoading && <LoadingSpinner />}
       <form className={classes.form} onSubmit={submitHandler}>
         <Box className={classes.formFields}>
           <Typography variant="h1" className={classes.title}>
@@ -119,12 +122,6 @@ const useStyles = makeStyles()(theme => ({
     width: theme.spacing(47),
     height: theme.spacing(5.5),
     alignSelf: 'end',
-  },
-  spinner: {
-    zIndex: '10',
-    position: 'absolute',
-    bottom: 'calc(50vh - 20px)',
-    right: 'calc(50vw - 20px)',
   },
   inputProps: {
     fontSize: '15px',

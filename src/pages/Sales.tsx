@@ -6,6 +6,7 @@ import { makeStyles } from 'tss-react/mui';
 // Components
 import { SaleCard } from '../components/Sales/SaleCard';
 import { SaleModal } from '../components/Sales/SaleModal';
+import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
@@ -15,15 +16,17 @@ import { getSales } from '../features/allSales/slice';
 import { ROUTES } from '../constants/routes';
 import { STRINGS } from '../constants/strings';
 import { SaleFetchData } from '../types/types';
+import { STATUS } from '../constants/statuses';
 
 export const Sales = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
-  const { allSales } = useAppSelector(state => state.allSales);
+  const { allSales, status } = useAppSelector(state => state.allSales);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [selectedSale, setSelectedSale] = useState<SaleFetchData>(allSales[0]);
   const [index, setIndex] = useState<number>(0);
+  const isLoading = status === STATUS.PENDING;
 
   useEffect(() => {
     dispatch(getSales());
@@ -42,22 +45,25 @@ export const Sales = () => {
   };
 
   return (
-    <Card className={classes.wrapper}>
-      <SaleModal open={isVisible} onClose={() => setIsVisible(false)} sale={selectedSale} index={index} />
-      <Typography variant="h1" className={classes.title}>
-        {STRINGS.ALL_SALES}
-      </Typography>
-      <Box className={classes.salesBox}>
-        <Box className={classes.sales}>
-          {allSales.map(sale => (
-            <SaleCard key={sale.id} sale={sale} onClick={saleCardClickHandler} />
-          ))}
+    <>
+      {isLoading && <LoadingSpinner />}
+      <Card className={classes.wrapper}>
+        <SaleModal open={isVisible} onClose={() => setIsVisible(false)} sale={selectedSale} index={index} />
+        <Typography variant="h1" className={classes.title}>
+          {STRINGS.ALL_SALES}
+        </Typography>
+        <Box className={classes.salesBox}>
+          <Box className={classes.sales}>
+            {allSales.map(sale => (
+              <SaleCard key={sale.id} sale={sale} onClick={saleCardClickHandler} />
+            ))}
+          </Box>
         </Box>
-      </Box>
-      <Button onClick={addNewSaleHandler} variant="contained" className={classes.addSale}>
-        {STRINGS.ADD_NEW_SALE}
-      </Button>
-    </Card>
+        <Button onClick={addNewSaleHandler} variant="contained" className={classes.addSale}>
+          {STRINGS.ADD_NEW_SALE}
+        </Button>
+      </Card>
+    </>
   );
 };
 
