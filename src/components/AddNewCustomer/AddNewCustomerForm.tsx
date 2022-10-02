@@ -40,9 +40,9 @@ import {
 import { ROUTES } from '../../constants/routes';
 import { STATUS } from '../../constants/statuses';
 import { STRINGS } from '../../constants/strings';
-import { AddNewCustomerFormProps } from '../../types/types';
+import { FormProps } from '../../types/types';
 
-export const AddNewCustomerForm = ({ submitHandler, buttonTitle, title }: AddNewCustomerFormProps) => {
+export const AddNewCustomerForm = ({ submitHandler, buttonTitle, title }: FormProps) => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

@@ -12,6 +12,7 @@ import { STATUS } from '../../constants/statuses';
 const initialState: NewSale = {
   status: '',
   error: '',
+  selectedProducts: [],
   sale: {
     customer: {
       name: '',
@@ -54,6 +55,9 @@ const newSaleSlice = createSlice({
   name: 'newSale',
   initialState,
   reducers: {
+    setSale: (state, action) => {
+      state.sale = action.payload;
+    },
     setCustomer: (state, action) => {
       state.sale.customer = action.payload;
     },
@@ -71,6 +75,9 @@ const newSaleSlice = createSlice({
     },
     setStock: (state, action) => {
       state.sale.order[action.payload.i].product.stock = action.payload.value;
+    },
+    setSelectedProducts: (state, action) => {
+      state.selectedProducts = action.payload;
     },
     addOrderItem: state => {
       state.sale.order = [
@@ -119,12 +126,14 @@ const newSaleSlice = createSlice({
 });
 
 export const {
+  setSale,
   setCustomer,
   setDate,
   setProductType,
   setProductUnits,
   setStatus,
   setStock,
+  setSelectedProducts,
   discardOrder,
   addOrderItem,
   removeOrderItem,
@@ -137,5 +146,6 @@ export const newSaleReducer = newSaleSlice.reducer;
 interface NewSale {
   status: string;
   error: string;
+  selectedProducts: string[];
   sale: SaleData;
 }

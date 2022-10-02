@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -23,14 +23,9 @@ import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../UI/LoadingSpinner';
 
 // Actions
-import { getCustomers } from '../../features/allCustomers/slice';
-import { getProducts } from '../../features/allProducts/slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 import {
   addOrderItem,
-  addReceivables,
-  createNewSale,
   discardData,
   discardOrder,
   removeOrderItem,
@@ -39,40 +34,26 @@ import {
   setIncome,
   setProductType,
   setProductUnits,
+  setSelectedProducts,
   setStatus,
   setStock,
   setTotalIncome,
-  updateProduct,
 } from '../../features/newSale/slice';
 
 // Other resources
 import { STATUS } from '../../constants/statuses';
 import { ROUTES } from '../../constants/routes';
 import { STRINGS } from '../../constants/strings';
+import { FormProps } from '../../types/types';
 
-export const AddNewSaleForm = () => {
+export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { allCustomers } = useAppSelector(state => state.allCustomers);
   const { allProducts } = useAppSelector(state => state.allProducts);
-  const { sale, status, error } = useAppSelector(state => state.newSale);
-  const [selectedProducts, setSelectedProducts] = useState<(string | undefined)[]>([]);
+  const { sale, status, selectedProducts } = useAppSelector(state => state.newSale);
   const isLoading = status === STATUS.PENDING;
-
-  useEffect(() => {
-    dispatch(getCustomers());
-    dispatch(getProducts());
-  }, []);
-
-  useEffect(() => {
-    if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
-    if (status === STATUS.FULFILLED) {
-      dispatch(successSnackBar(STRINGS.SALE_SUCCESS));
-      navigate(ROUTES.SALES);
-      setTimeout(() => dispatch(discardData()), 1000);
-    }
-  }, [status]);
 
   const cancelHandler = () => {
     navigate(ROUTES.SALES);
@@ -83,35 +64,22 @@ export const AddNewSaleForm = () => {
     const value = e.currentTarget.id;
     if (sale.order[i].product.id) {
       const arr = selectedProducts.filter(item => item !== sale.order[i].product.id);
-      setSelectedProducts([...arr, value]);
+      dispatch(setSelectedProducts([...arr, value]));
     } else {
-      setSelectedProducts(prev => [...prev, value]);
+      dispatch(setSelectedProducts([...selectedProducts, value]));
     }
   };
 
   const removeProductListId = (id: string) => {
     const list = selectedProducts.filter(item => item !== id);
-    setSelectedProducts(list);
-  };
-
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    dispatch(createNewSale(sale));
-
-    const receivables = (+sale.customer.receivables + sale.totalIncome).toFixed(2);
-    dispatch(addReceivables({ uid: sale.customer.id as string, data: receivables }));
-
-    sale.order.forEach(product => {
-      const stock = (+product.product.stock - +product.units).toFixed();
-      dispatch(updateProduct({ uid: product.product.id, data: stock }));
-    });
+    dispatch(setSelectedProducts(list));
   };
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       {isLoading && <LoadingSpinner />}
       <Typography variant="h1" className={classes.title}>
-        {STRINGS.ADD_NEW_SALE}
+        {title}
       </Typography>
       <FormControl>
         <InputLabel id="customer">Customer</InputLabel>
@@ -161,6 +129,8 @@ export const AddNewSaleForm = () => {
                               dispatch(setProductType({ value: product, i }));
                               const prod = allProducts.filter(item => item.id === e.currentTarget.id);
                               dispatch(setStock({ i, value: prod[0].stock }));
+                              dispatch(setIncome(i));
+                              dispatch(setTotalIncome());
                             }}
                           >
                             {product.product}
@@ -246,7 +216,7 @@ export const AddNewSaleForm = () => {
         </LocalizationProvider>
       </Box>
       <Button variant="contained" type="submit" disabled={isLoading}>
-        {STRINGS.ADD_SALE}
+        {buttonTitle}
       </Button>
       <Button variant="outlined" onClick={cancelHandler}>
         {STRINGS.CANCEL}

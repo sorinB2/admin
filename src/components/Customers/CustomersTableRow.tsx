@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  IconButton,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Collapse,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import { IconButton, Table, TableHead, TableBody, TableRow, TableCell, Collapse, Box } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { makeStyles } from 'tss-react/mui';
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { useNavigate } from 'react-router-dom';
+
+// Components
+import { Options } from '../UI/Options';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -43,13 +33,6 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
   const { deletedCustomerId } = useAppSelector(state => state.deleteCustomer);
   const [open, setOpen] = useState<boolean>(false);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const optionsOpen = Boolean(anchorEl);
-
-  const optionsCloseHandler = () => {
-    setAnchorEl(null);
-  };
-
   const editCustomerHandler = async () => {
     dispatch(setCustomer({ name, location, phone, receivables, products }));
     dispatch(setCustomerId(id));
@@ -65,11 +48,6 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
   const deleteCustomerHandler = () => {
     dispatch(deleteCustomer(id));
     dispatch(setDeletedCustomerId(id));
-    setAnchorEl(null);
-  };
-
-  const optionsClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
   };
 
   return (
@@ -93,33 +71,7 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
           {formatNumber(receivables)}
         </TableCell>
         <TableCell align="right" className={classes.buttonCell}>
-          <Button
-            className={classes.optionsButton}
-            id={id}
-            aria-controls={optionsOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={optionsOpen ? 'true' : undefined}
-            onClick={optionsClickHandler}
-          >
-            <MoreVertOutlinedIcon />
-          </Button>
-          <Menu
-            className={classes.optionsMenu}
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={optionsOpen}
-            onClose={optionsCloseHandler}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem className={classes.optionsMenuItem} onClick={editCustomerHandler}>
-              {STRINGS.EDIT}
-            </MenuItem>
-            <MenuItem className={classes.optionsMenuItem} onClick={deleteCustomerHandler}>
-              {STRINGS.DELETE}
-            </MenuItem>
-          </Menu>
+          <Options id={id} onEdit={editCustomerHandler} onDelete={deleteCustomerHandler} />
         </TableCell>
       </TableRow>
       <TableRow>
@@ -186,21 +138,5 @@ const useStyles = makeStyles()(theme => ({
   },
   buttonCell: {
     width: '36px',
-  },
-  optionsButton: {
-    width: '36px',
-    height: '36px',
-    borderRadius: '50%',
-  },
-  optionsMenu: {
-    '& .MuiPaper-root': {
-      border: `0.5px solid ${theme.palette.primary.light}`,
-    },
-    '& .MuiMenu-list': {
-      padding: `${theme.spacing(1)} 0`,
-    },
-  },
-  optionsMenuItem: {
-    padding: `${theme.spacing(0.5)} ${theme.spacing(3)}`,
   },
 }));

@@ -15,6 +15,7 @@ import { Production } from './pages/Production';
 import { AddNewCustomer } from './pages/AddNewCustomer';
 import { AddNewSale } from './pages/AddNewSale';
 import { EditCustomer } from './pages/EditCustomer';
+import { EditSale } from './pages/EditSale';
 
 // Actions
 import { useAppDispatch } from './hooks/reduxHooks';
@@ -46,6 +47,7 @@ export const App = () => {
               <Route path={ROUTES.ADD_NEW_PRODUCT} element={<AddNewProduct />} />
               <Route path={ROUTES.SALES} element={<Sales />} />
               <Route path={ROUTES.ADD_NEW_SALE} element={<AddNewSale />} />
+              <Route path={ROUTES.EDIT_SALE} element={<EditSale />} />
               <Route path={ROUTES.PRODUCTION} element={<Production />} />
             </Route>
           </Route>

@@ -51,4 +51,6 @@ export const STRINGS = {
   EDIT_CUSTOMER_SUCCESS: 'Customer edited successfully',
   EDIT: 'Edit',
   DELETE: 'Delete',
+  EDIT_SALE: 'Edit sale',
+  EDIT_SALE_SUCCESS: 'Sale edited successfully',
 };

@@ -68,7 +68,7 @@ export interface SaleCardProps {
   onClick: (e: React.MouseEvent) => void;
 }
 
-export interface AddNewCustomerFormProps {
+export interface FormProps {
   submitHandler: (event: React.FormEvent) => void;
   buttonTitle: string;
   title: string;
