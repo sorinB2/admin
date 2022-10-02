@@ -129,8 +129,6 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                               dispatch(setProductType({ value: product, i }));
                               const prod = allProducts.filter(item => item.id === e.currentTarget.id);
                               dispatch(setStock({ i, value: prod[0].stock }));
-                              dispatch(setIncome(i));
-                              dispatch(setTotalIncome());
                             }}
                           >
                             {product.product}
@@ -144,7 +142,7 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                     label={STRINGS.PRICE}
                     value={sale.order[i].product.price}
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">mdl</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">lei</InputAdornment>,
                     }}
                   />
                   <Box>
@@ -170,7 +168,7 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                     label={STRINGS.INCOME}
                     value={sale.order[i].income.toFixed(2)}
                     InputProps={{
-                      endAdornment: <InputAdornment position="end">mdl</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">lei</InputAdornment>,
                     }}
                   />
                   <IconButton

@@ -55,9 +55,6 @@ const newSaleSlice = createSlice({
   name: 'newSale',
   initialState,
   reducers: {
-    setSale: (state, action) => {
-      state.sale = action.payload;
-    },
     setCustomer: (state, action) => {
       state.sale.customer = action.payload;
     },
@@ -109,6 +106,7 @@ const newSaleSlice = createSlice({
       state.sale = initialState.sale;
       state.status = initialState.status;
       state.error = initialState.error;
+      state.selectedProducts = initialState.selectedProducts;
     },
   },
   extraReducers: builder => {
@@ -126,7 +124,6 @@ const newSaleSlice = createSlice({
 });
 
 export const {
-  setSale,
   setCustomer,
   setDate,
   setProductType,

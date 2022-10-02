@@ -1,43 +1,19 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useNavigate } from 'react-router-dom';
-
-// Components
-import { Options } from '../UI/Options';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 // Actions
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { setCustomer, setSale } from '../../features/newSale/slice';
 import { formatNumber } from '../../utils/formatNumber';
 import { formatDate } from '../../utils/formatDate';
-import { getProducts } from '../../features/allProducts/slice';
-import { getCustomers } from '../../features/allCustomers/slice';
-import { setSaleId } from '../../features/editSale/slice';
 
 // Other resources
 import { SaleCardProps } from '../../types/types';
-import { ROUTES } from '../../constants/routes';
 
 export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { customer, order, date, totalIncome, paid, status, id } = sale;
+  const { customer, date, totalIncome, status, id } = sale;
   const { classes } = useStyles();
-
-  const editSaleHandler = async () => {
-    await dispatch(getCustomers());
-    await dispatch(getProducts());
-    dispatch(setSale({ customer, order, date, totalIncome, paid, status }));
-    dispatch(setCustomer(customer));
-    dispatch(setSaleId(id));
-    navigate(ROUTES.EDIT_SALE);
-  };
-
-  const deleteSaleHandler = () => {
-    console.log('delete');
-  };
 
   return (
     <Box id={id} className={classes.saleCard} onClick={onClick}>
@@ -56,9 +32,9 @@ export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
       <Typography className={status === 'Pending' ? classes.statusPending : classes.statusDelivered}>
         {status}
       </Typography>
-      <Box onClick={e => e.stopPropagation()}>
-        <Options id={id} onEdit={editSaleHandler} onDelete={deleteSaleHandler} />
-      </Box>
+      <IconButton>
+        <DeleteOutlineIcon />
+      </IconButton>
     </Box>
   );
 };
@@ -72,7 +48,6 @@ const useStyles = makeStyles()(theme => ({
     width: '550px',
     height: 'auto',
     padding: theme.spacing(1.5),
-    paddingRight: '0',
     boxSizing: 'border-box',
     display: 'grid',
     gridTemplateColumns: '1.5fr 1.5fr 1fr 0.8fr 40px',
