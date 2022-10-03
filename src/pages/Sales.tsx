@@ -10,7 +10,9 @@ import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
-import { getSales } from '../features/allSales/slice';
+import { getSales, setSales } from '../features/allSales/slice';
+import { getProducts } from '../features/allProducts/slice';
+import { getCustomers } from '../features/allCustomers/slice';
 
 // Other resources
 import { ROUTES } from '../constants/routes';
@@ -23,14 +25,22 @@ export const Sales = () => {
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const { allSales, status } = useAppSelector(state => state.allSales);
+  const { status: deleteStatus, deletedSaleId } = useAppSelector(state => state.deleteSale);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [selectedSale, setSelectedSale] = useState<SaleFetchData>(allSales[0]);
   const [index, setIndex] = useState<number>(0);
-  const isLoading = status === STATUS.PENDING;
+  const isLoading = status === STATUS.PENDING || deleteStatus === STATUS.PENDING;
 
   useEffect(() => {
     dispatch(getSales());
+    dispatch(getProducts());
+    dispatch(getCustomers());
   }, []);
+
+  useEffect(() => {
+    const sales = allSales.filter(item => item.id !== deletedSaleId);
+    deleteStatus === STATUS.FULFILLED && dispatch(setSales(sales));
+  }, [deleteStatus]);
 
   const saleCardClickHandler = (e: MouseEvent) => {
     const sale = allSales.filter(item => item.id === e.currentTarget.id);

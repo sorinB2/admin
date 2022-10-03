@@ -34,6 +34,9 @@ const allSalesSlice = createSlice({
     updateStatus: (state, action) => {
       state.allSales[action.payload.index].status = action.payload.value;
     },
+    setSales: (state, action) => {
+      state.allSales = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(getSales.pending, state => {
@@ -60,7 +63,7 @@ const allSalesSlice = createSlice({
   },
 });
 
-export const { updateStatus } = allSalesSlice.actions;
+export const { updateStatus, setSales } = allSalesSlice.actions;
 export const allSalesReducer = allSalesSlice.reducer;
 
 interface AllSales {

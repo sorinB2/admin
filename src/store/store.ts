@@ -12,6 +12,7 @@ import { newSaleReducer } from '../features/newSale/slice';
 import { allSalesReducer } from '../features/allSales/slice';
 import { editCustomerReducer } from '../features/editCustomer/slice';
 import { deleteCustomerReducer } from '../features/deleteCustomer/slice';
+import { deleteSaleReducer } from '../features/deleteSale/slice';
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     deleteCustomer: deleteCustomerReducer,
     newSale: newSaleReducer,
     allSales: allSalesReducer,
+    deleteSale: deleteSaleReducer,
   },
 });
 

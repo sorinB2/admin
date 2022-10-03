@@ -7,13 +7,36 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 // Actions
 import { formatNumber } from '../../utils/formatNumber';
 import { formatDate } from '../../utils/formatDate';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { deleteSale, setDeletedSaleId } from '../../features/deleteSale/slice';
+import { addReceivables, updateProduct } from '../../features/newSale/slice';
 
 // Other resources
 import { SaleCardProps } from '../../types/types';
 
 export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
-  const { customer, date, totalIncome, status, id } = sale;
+  const dispatch = useAppDispatch();
   const { classes } = useStyles();
+  const { customer, date, totalIncome, status, id } = sale;
+  const { allCustomers } = useAppSelector(state => state.allCustomers);
+  const { allProducts } = useAppSelector(state => state.allProducts);
+
+  const deleteSaleHandler = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const saleId = event.currentTarget.parentElement?.id;
+    dispatch(deleteSale(saleId as string));
+    dispatch(setDeletedSaleId(saleId));
+
+    const saleCustomer = allCustomers.find(item => item.id === customer.id);
+    const receivables = ((saleCustomer?.receivables as number) - totalIncome).toFixed(2);
+    dispatch(addReceivables({ uid: customer.id as string, data: receivables }));
+
+    sale.order.forEach(product => {
+      const saleProduct = allProducts.find(item => item.id === product.product.id);
+      const stock = (+(saleProduct?.stock as number) + +product.units).toFixed();
+      dispatch(updateProduct({ uid: product.product.id, data: stock }));
+    });
+  };
 
   return (
     <Box id={id} className={classes.saleCard} onClick={onClick}>
@@ -32,7 +55,7 @@ export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
       <Typography className={status === 'Pending' ? classes.statusPending : classes.statusDelivered}>
         {status}
       </Typography>
-      <IconButton>
+      <IconButton onClick={deleteSaleHandler}>
         <DeleteOutlineIcon />
       </IconButton>
     </Box>
