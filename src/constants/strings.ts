@@ -51,4 +51,11 @@ export const STRINGS = {
   EDIT_CUSTOMER_SUCCESS: 'Customer edited successfully',
   EDIT: 'Edit',
   DELETE: 'Delete',
+  CONFIRM: 'Confirm',
+  DELETE_SALE_DESCRIPTION:
+    'By deleting a sale, you affect both product stocks and customer receivables. This action cannot be undone!',
+  DELETE_SALE_TITLE: 'Are you sure you want to delete this sale?',
+  DELETE_CUSTOMER_DESCRIPTION:
+    'By deleting a customer, you you will lose all information about him. This action cannot be undone!',
+  DELETE_CUSTOMER_TITLE: 'Are you sure you want to delete this customer?',
 };

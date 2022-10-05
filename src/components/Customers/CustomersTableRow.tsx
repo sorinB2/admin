@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Components
 import { Options } from '../UI/Options';
+import { ActionConfirmModal } from '../UI/ActionConfirmModal';
 
 // Actions
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -32,6 +33,7 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
   const { status: deleteStatus } = useAppSelector(state => state.deleteCustomer);
   const { deletedCustomerId } = useAppSelector(state => state.deleteCustomer);
   const [open, setOpen] = useState<boolean>(false);
+  const [actionModalVisible, setActionModalVisible] = useState<boolean>(false);
 
   const editCustomerHandler = async () => {
     dispatch(setCustomer({ name, location, phone, receivables, products }));
@@ -48,10 +50,18 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
   const deleteCustomerHandler = () => {
     dispatch(deleteCustomer(id));
     dispatch(setDeletedCustomerId(id));
+    setActionModalVisible(false);
   };
 
   return (
     <>
+      <ActionConfirmModal
+        isVisible={actionModalVisible}
+        title={STRINGS.DELETE_CUSTOMER_TITLE}
+        description={STRINGS.DELETE_CUSTOMER_DESCRIPTION}
+        confirmHandler={deleteCustomerHandler}
+        closeHandler={() => setActionModalVisible(false)}
+      />
       <TableRow className={classes.customerRow}>
         <TableCell className={classes.arrowCell}>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -71,7 +81,7 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
           {formatNumber(receivables)}
         </TableCell>
         <TableCell align="right" className={classes.buttonCell}>
-          <Options id={id} onEdit={editCustomerHandler} onDelete={deleteCustomerHandler} />
+          <Options id={id} onEdit={editCustomerHandler} onDelete={() => setActionModalVisible(true)} />
         </TableCell>
       </TableRow>
       <TableRow>

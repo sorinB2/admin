@@ -73,3 +73,12 @@ export interface FormProps {
   buttonTitle: string;
   title: string;
 }
+
+export interface ActionConfirmModalProps {
+  id?: string;
+  isVisible: boolean;
+  title: string;
+  description: string;
+  confirmHandler: (e: React.MouseEvent) => void;
+  closeHandler: () => void;
+}

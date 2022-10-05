@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+// Components
+import { ActionConfirmModal } from '../UI/ActionConfirmModal';
 
 // Actions
 import { formatNumber } from '../../utils/formatNumber';
@@ -13,17 +16,18 @@ import { addReceivables, updateProduct } from '../../features/newSale/slice';
 
 // Other resources
 import { SaleCardProps } from '../../types/types';
+import { STRINGS } from '../../constants/strings';
 
 export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
   const { customer, date, totalIncome, status, id } = sale;
+  const [actionModalVisible, setActionModalVisible] = useState<boolean>(false);
   const { allCustomers } = useAppSelector(state => state.allCustomers);
   const { allProducts } = useAppSelector(state => state.allProducts);
 
   const deleteSaleHandler = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    const saleId = event.currentTarget.parentElement?.id;
+    const saleId = event.currentTarget.id;
     dispatch(deleteSale(saleId as string));
     dispatch(setDeletedSaleId(saleId));
 
@@ -36,29 +40,45 @@ export const SaleCard = ({ sale, onClick }: SaleCardProps) => {
       const stock = (+(saleProduct?.stock as number) + +product.units).toFixed();
       dispatch(updateProduct({ uid: product.product.id, data: stock }));
     });
+    setActionModalVisible(false);
   };
 
   return (
-    <Box id={id} className={classes.saleCard} onClick={onClick}>
-      <Box className={classes.nameWrapper}>
-        <ShoppingCartOutlinedIcon className={classes.cartIcon} />
-        <Typography className={classes.name} variant="h3">
-          {customer.name}
+    <>
+      <ActionConfirmModal
+        id={id}
+        isVisible={actionModalVisible}
+        title={STRINGS.DELETE_SALE_TITLE}
+        description={STRINGS.DELETE_SALE_DESCRIPTION}
+        confirmHandler={deleteSaleHandler}
+        closeHandler={() => setActionModalVisible(false)}
+      />
+      <Box id={id} className={classes.saleCard} onClick={onClick}>
+        <Box className={classes.nameWrapper}>
+          <ShoppingCartOutlinedIcon className={classes.cartIcon} />
+          <Typography className={classes.name} variant="h3">
+            {customer.name}
+          </Typography>
+        </Box>
+        <Typography className={classes.income} variant="h2">
+          {`${formatNumber(+totalIncome.toFixed(2))} lei`}
         </Typography>
+        <Typography className={classes.date} variant="h5">
+          {formatDate(new Date(date))}
+        </Typography>
+        <Typography className={status === 'Pending' ? classes.statusPending : classes.statusDelivered}>
+          {status}
+        </Typography>
+        <IconButton
+          onClick={event => {
+            event.stopPropagation();
+            setActionModalVisible(true);
+          }}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
       </Box>
-      <Typography className={classes.income} variant="h2">
-        {`${formatNumber(+totalIncome.toFixed(2))} lei`}
-      </Typography>
-      <Typography className={classes.date} variant="h5">
-        {formatDate(new Date(date))}
-      </Typography>
-      <Typography className={status === 'Pending' ? classes.statusPending : classes.statusDelivered}>
-        {status}
-      </Typography>
-      <IconButton onClick={deleteSaleHandler}>
-        <DeleteOutlineIcon />
-      </IconButton>
-    </Box>
+    </>
   );
 };
 
