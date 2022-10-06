@@ -38,7 +38,7 @@ import { STATUS } from '../../constants/statuses';
 import { ROUTES } from '../../constants/routes';
 import { STRINGS } from '../../constants/strings';
 
-export const AddNewProductFrom = () => {
+export const AddNewProductForm = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

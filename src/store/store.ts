@@ -13,6 +13,7 @@ import { allSalesReducer } from '../features/allSales/slice';
 import { editCustomerReducer } from '../features/editCustomer/slice';
 import { deleteCustomerReducer } from '../features/deleteCustomer/slice';
 import { deleteSaleReducer } from '../features/deleteSale/slice';
+import { newProductionReducer } from '../features/newProduction/slice';
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     newSale: newSaleReducer,
     allSales: allSalesReducer,
     deleteSale: deleteSaleReducer,
+    newProduction: newProductionReducer,
   },
 });
 

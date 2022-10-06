@@ -28,7 +28,7 @@ const allProductsSlice = createSlice({
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.status = STATUS.FULFILLED;
-      state.allProducts = action.payload;
+      state.allProducts = action.payload.sort((a, b) => (a.brand > b.brand ? 1 : -1));
     });
     builder.addCase(getProducts.rejected, (state, { error }) => {
       state.error = error.message || 'Something went wrong';

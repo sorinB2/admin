@@ -11,4 +11,5 @@ export const ROUTES = {
   ADD_NEW_CUSTOMER: '/customers/add-new-customer',
   EDIT_CUSTOMER: '/customers/edit-customer',
   PRODUCTION: '/production',
+  ADD_NEW_PRODUCTION: '/production/add-new-production',
 };
