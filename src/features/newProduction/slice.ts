@@ -8,7 +8,7 @@ const initialState: NewProduction = {
   error: '',
   selectedProducts: [],
   production: {
-    date: new Date().toString(),
+    date: '',
     products: [{ product: '', units: '', id: '' }],
   },
 };
@@ -41,6 +41,12 @@ const newProductionSlice = createSlice({
       list.splice(action.payload, 1);
       state.production.products = list;
     },
+    discardData: state => {
+      state.error = initialState.error;
+      state.status = initialState.status;
+      state.selectedProducts = initialState.selectedProducts;
+      state.production = initialState.production;
+    },
   },
 });
 
@@ -52,5 +58,6 @@ export const {
   setProductUnits,
   addProduct,
   removeProduct,
+  discardData,
 } = newProductionSlice.actions;
 export const newProductionReducer = newProductionSlice.reducer;

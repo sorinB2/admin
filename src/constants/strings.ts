@@ -58,4 +58,6 @@ export const STRINGS = {
   DELETE_CUSTOMER_DESCRIPTION:
     'By deleting a customer, you you will lose all information about him. This action cannot be undone!',
   DELETE_CUSTOMER_TITLE: 'Are you sure you want to delete this customer?',
+  ADD_NEW_PRODUCTION: 'Add new production',
+  TODAY: 'Today',
 };

@@ -9,9 +9,10 @@ import {
   SelectChangeEvent,
   TextField,
   Box,
+  Modal,
+  Button,
+  Typography,
 } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
@@ -20,8 +21,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { getProducts } from '../../features/allProducts/slice';
 import {
   addProduct,
+  discardData,
   removeProduct,
-  setDate,
   setProductId,
   setProductType,
   setProductUnits,
@@ -31,7 +32,7 @@ import {
 // Other resources
 import { STRINGS } from '../../constants/strings';
 
-export const AddNewProductionForm = () => {
+export const AddNewProductionForm = ({ isVisible, hideModal }: { isVisible: boolean; hideModal: () => void }) => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const { allProducts } = useAppSelector(state => state.allProducts);
@@ -43,7 +44,6 @@ export const AddNewProductionForm = () => {
 
   const selectChangeHandler = (e: SelectChangeEvent, i: number) => {
     const { value } = e.target;
-    console.log(value);
     dispatch(setProductType({ value, i }));
   };
 
@@ -68,93 +68,142 @@ export const AddNewProductionForm = () => {
     dispatch(setSelectedProducts(list));
   };
 
+  const cancelHandler = () => {
+    hideModal();
+    dispatch(discardData());
+  };
+
   return (
-    <form>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label={STRINGS.DATE}
-          value={production.date}
-          inputFormat="DD.MM.YYYY"
-          onChange={newValue => {
-            dispatch(setDate(newValue?.toString()));
-          }}
-          renderInput={params => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-      <Box className={classes.productsForm}>
-        <Box className={classes.productsWrapper}>
-          {production.products.map((item, i) => {
-            return (
-              <Box key={i} className={classes.productsBox}>
-                <FormControl>
-                  <InputLabel id="product">{STRINGS.PRODUCT}</InputLabel>
-                  <Select
-                    label={STRINGS.PRODUCT}
-                    labelId="product"
-                    name="product"
-                    required
-                    value={item.product}
-                    onChange={e => selectChangeHandler(e, i)}
-                  >
-                    {allProducts.map(product => {
-                      return (
-                        <MenuItem
-                          key={product.id}
-                          id={product.id}
-                          disabled={selectedProducts.includes(product.id)}
-                          value={`${product.brand} ${product.name}`}
-                          onClick={e => setProductListId(e, i)}
-                        >
-                          {`${product.brand} ${product.name}`}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                <TextField
-                  type="number"
-                  label={STRINGS.UNITS}
-                  name="units"
-                  required
-                  value={item.units}
-                  onChange={e => inputChangeHandler(e, i)}
-                />
-                <IconButton
-                  onClick={() => {
-                    removeProductListId(production.products[i].id);
-                    dispatch(removeProduct(i));
-                  }}
-                >
-                  <DeleteOutlinedIcon />
-                </IconButton>
-              </Box>
-            );
-          })}
-        </Box>
-        <IconButton className={classes.addProduct} onClick={() => dispatch(addProduct())}>
-          <AddOutlinedIcon />
-        </IconButton>
+    <Modal open={isVisible} className={classes.modal} onClose={hideModal}>
+      <Box className={classes.formWrapper}>
+        <form className={classes.form}>
+          <Typography variant="h1" className={classes.title}>
+            {STRINGS.ADD_NEW_PRODUCTION}
+          </Typography>
+          <Box className={classes.productsForm}>
+            <Box>
+              {production.products.map((item, i) => {
+                return (
+                  <Box key={i} className={classes.productsBox}>
+                    <FormControl>
+                      <InputLabel id="product">{STRINGS.PRODUCT}</InputLabel>
+                      <Select
+                        label={STRINGS.PRODUCT}
+                        labelId="product"
+                        name="product"
+                        required
+                        value={item.product}
+                        onChange={e => selectChangeHandler(e, i)}
+                      >
+                        {allProducts.map(product => {
+                          return (
+                            <MenuItem
+                              key={product.id}
+                              id={product.id}
+                              disabled={selectedProducts.includes(product.id)}
+                              value={`${product.brand} ${product.name}`}
+                              onClick={e => setProductListId(e, i)}
+                            >
+                              {`${product.brand} ${product.name}`}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      type="number"
+                      label={STRINGS.UNITS}
+                      name="units"
+                      required
+                      value={item.units}
+                      onChange={e => inputChangeHandler(e, i)}
+                    />
+                    <IconButton
+                      onClick={() => {
+                        removeProductListId(production.products[i].id);
+                        dispatch(removeProduct(i));
+                      }}
+                      className={classes.removeProduct}
+                    >
+                      <DeleteOutlinedIcon />
+                    </IconButton>
+                  </Box>
+                );
+              })}
+            </Box>
+            <IconButton className={classes.addProduct} onClick={() => dispatch(addProduct())}>
+              <AddOutlinedIcon />
+            </IconButton>
+          </Box>
+          <Box className={classes.buttonsBox}>
+            <Button variant="outlined" onClick={cancelHandler} className={classes.cancelButton}>
+              {STRINGS.CANCEL}
+            </Button>
+            <Button variant="contained" className={classes.submitButton} type="submit">
+              {STRINGS.ADD_NEW_PRODUCTION}
+            </Button>
+          </Box>
+        </form>
       </Box>
-    </form>
+    </Modal>
   );
 };
 
 const useStyles = makeStyles()(theme => ({
+  modal: {
+    display: 'grid',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  formWrapper: {
+    width: '800px',
+    minHeight: '300px',
+    maxHeight: '500px',
+    backgroundColor: theme.palette.common.white,
+    borderRadius: theme.spacing(2),
+    padding: theme.spacing(4),
+    paddingBottom: '0',
+    boxSizing: 'border-box',
+    overflowY: 'scroll',
+    outline: 'none',
+  },
+  form: {
+    height: '100%',
+    display: 'grid',
+    gridTemplateRows: '50px auto 72px',
+  },
+  title: {
+    marginBottom: theme.spacing(2),
+    fontWeight: '600',
+  },
   productsForm: {
     display: 'grid',
     gridTemplateColumns: `auto ${theme.spacing(6.75)}`,
-  },
-  productsWrapper: {
-    display: 'grid',
-    gridGap: '15px',
   },
   productsBox: {
     display: 'grid',
     gridTemplateColumns: `1fr 1fr ${theme.spacing(6.75)}`,
     gridGap: '15px',
+    marginBottom: theme.spacing(2),
   },
   addProduct: {
     height: theme.spacing(6.75),
     alignSelf: 'start',
+  },
+  removeProduct: {
+    height: theme.spacing(6.75),
+  },
+  buttonsBox: {
+    display: 'grid',
+    gridTemplateColumns: '125px auto',
+    gridGap: theme.spacing(2),
+    justifyContent: 'end',
+    alignContent: 'end',
+  },
+  cancelButton: {
+    marginBottom: theme.spacing(4),
+  },
+  submitButton: {
+    marginBottom: theme.spacing(4),
   },
 }));

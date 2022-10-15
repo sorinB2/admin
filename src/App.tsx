@@ -22,7 +22,6 @@ import { errorSnackBar } from './features/snackBar/slice';
 
 // Other resources
 import { ROUTES } from './constants/routes';
-import { AddNewProduction } from './pages/AddNewProduction';
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +47,6 @@ export const App = () => {
               <Route path={ROUTES.SALES} element={<Sales />} />
               <Route path={ROUTES.ADD_NEW_SALE} element={<AddNewSale />} />
               <Route path={ROUTES.PRODUCTION} element={<Production />} />
-              <Route path={ROUTES.ADD_NEW_PRODUCTION} element={<AddNewProduction />} />
             </Route>
           </Route>
         </Routes>
