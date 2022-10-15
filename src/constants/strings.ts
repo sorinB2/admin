@@ -60,4 +60,5 @@ export const STRINGS = {
   DELETE_CUSTOMER_TITLE: 'Are you sure you want to delete this customer?',
   ADD_NEW_PRODUCTION: 'Add new production',
   TODAY: 'Today',
+  PRODUCTION_SUCCESS: 'Production added successfully',
 };

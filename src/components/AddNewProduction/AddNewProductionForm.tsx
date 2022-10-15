@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { getProducts } from '../../features/allProducts/slice';
 import {
   addProduct,
+  createNewProduction,
   discardData,
   removeProduct,
   setProductId,
@@ -28,19 +29,30 @@ import {
   setProductUnits,
   setSelectedProducts,
 } from '../../features/newProduction/slice';
+import { errorSnackBar, successSnackBar } from '../../features/snackBar/slice';
 
 // Other resources
 import { STRINGS } from '../../constants/strings';
+import { STATUS } from '../../constants/statuses';
 
 export const AddNewProductionForm = ({ isVisible, hideModal }: { isVisible: boolean; hideModal: () => void }) => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const { allProducts } = useAppSelector(state => state.allProducts);
-  const { production, selectedProducts } = useAppSelector(state => state.newProduction);
+  const { production, selectedProducts, status, error } = useAppSelector(state => state.newProduction);
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
+
+  useEffect(() => {
+    if (status === STATUS.FAILED) dispatch(errorSnackBar(error));
+    if (status === STATUS.FULFILLED) {
+      dispatch(successSnackBar(STRINGS.PRODUCTION_SUCCESS));
+      hideModal();
+      setTimeout(() => dispatch(discardData()), 1000);
+    }
+  }, [status]);
 
   const selectChangeHandler = (e: SelectChangeEvent, i: number) => {
     const { value } = e.target;
@@ -73,10 +85,15 @@ export const AddNewProductionForm = ({ isVisible, hideModal }: { isVisible: bool
     dispatch(discardData());
   };
 
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+    dispatch(createNewProduction(production));
+  };
+
   return (
     <Modal open={isVisible} className={classes.modal} onClose={hideModal}>
       <Box className={classes.formWrapper}>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={submitHandler}>
           <Typography variant="h1" className={classes.title}>
             {STRINGS.ADD_NEW_PRODUCTION}
           </Typography>

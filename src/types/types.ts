@@ -83,16 +83,11 @@ export interface ActionConfirmModalProps {
   closeHandler: () => void;
 }
 
-export interface NewProduction {
-  status: string;
-  error: string;
-  selectedProducts: string[];
-  production: {
-    date: string;
-    products: {
-      product: string;
-      id: string;
-      units: string;
-    }[];
-  };
+export interface ProductionData {
+  date: string;
+  products: {
+    product: string;
+    id: string;
+    units: string;
+  }[];
 }

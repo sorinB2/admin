@@ -9,34 +9,38 @@ import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeft
 
 // Components
 import { AddNewProductionForm } from '../components/AddNewProduction/AddNewProductionForm';
+import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 
 // Actions
-import { useAppDispatch } from '../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setDate } from '../features/newProduction/slice';
 
 // Other resources
 import { STRINGS } from '../constants/strings';
+import { STATUS } from '../constants/statuses';
 
 export const Production = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { status } = useAppSelector(state => state.newProduction);
+  const isLoading = status === STATUS.PENDING;
   const events = [
     {
-      title: 'Produced',
+      title: 'Servetele umede',
       start: '2022-10-06',
       end: '2022-10-06',
       allday: true,
     },
     {
-      title: 'Test2',
-      start: '2022-10-07',
-      end: '2022-10-07',
+      title: 'Lavete',
+      start: '2022-10-14',
+      end: '2022-10-14',
       allday: true,
     },
     {
-      title: 'Test3',
+      title: 'Hartie',
       start: '2022-10-08',
       end: '2022-10-08',
       allday: true,
@@ -65,32 +69,35 @@ export const Production = () => {
   };
 
   return (
-    <Card className={classes.wrapper}>
-      <Box className={classes.buttonsBox}>
-        <Button onClick={todayHandler} className={classes.todayButton}>
-          {STRINGS.TODAY}
-        </Button>
-        <IconButton onClick={previousMonthHandler}>
-          <KeyboardArrowLeftOutlinedIcon />
-        </IconButton>
-        <IconButton onClick={nextMonthHandler}>
-          <KeyboardArrowRightOutlinedIcon />
-        </IconButton>
-      </Box>
-      <AddNewProductionForm isVisible={isVisible} hideModal={() => setIsVisible(false)} />
-      <FullCalendar
-        ref={calendarRef}
-        viewClassNames={classes.calendar}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        selectable={true}
-        headerToolbar={{
-          right: '',
-        }}
-        dateClick={dateClickHandler}
-        events={events}
-        eventClick={event => console.log(event.event._def.publicId)}
-      />
-    </Card>
+    <>
+      {isLoading && <LoadingSpinner />}
+      <Card className={classes.wrapper}>
+        <Box className={classes.buttonsBox}>
+          <Button onClick={todayHandler} className={classes.todayButton}>
+            {STRINGS.TODAY}
+          </Button>
+          <IconButton onClick={previousMonthHandler}>
+            <KeyboardArrowLeftOutlinedIcon />
+          </IconButton>
+          <IconButton onClick={nextMonthHandler}>
+            <KeyboardArrowRightOutlinedIcon />
+          </IconButton>
+        </Box>
+        <AddNewProductionForm isVisible={isVisible} hideModal={() => setIsVisible(false)} />
+        <FullCalendar
+          ref={calendarRef}
+          viewClassNames={classes.calendar}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          selectable={true}
+          headerToolbar={{
+            right: '',
+          }}
+          dateClick={dateClickHandler}
+          events={events}
+          eventClick={event => console.log(event.event._def.publicId)}
+        />
+      </Card>
+    </>
   );
 };
 

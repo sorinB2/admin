@@ -19,12 +19,12 @@ const useStyles = makeStyles()(() => ({
     right: '0',
     bottom: '0',
     backgroundColor: 'rgba(5, 56, 107, 0.05)',
-    zIndex: '100',
+    zIndex: '1000000',
     display: 'grid',
     justifyContent: 'center',
     alignContent: 'center',
   },
   spinner: {
-    zIndex: '101',
+    zIndex: '1000001',
   },
 }));

@@ -1,7 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+// Actions
+import { createProduction } from '../../services/createProduction';
 
 // Other resources
-import { NewProduction } from '../../types/types';
+import { STATUS } from '../../constants/statuses';
+import { ProductionData } from '../../types/types';
 
 const initialState: NewProduction = {
   status: '',
@@ -12,6 +16,14 @@ const initialState: NewProduction = {
     products: [{ product: '', units: '', id: '' }],
   },
 };
+
+export const createNewProduction = createAsyncThunk(
+  'createNewProduction/newProduction',
+  async (data: ProductionData) => {
+    const result = await createProduction(data);
+    return result;
+  }
+);
 
 const newProductionSlice = createSlice({
   name: 'newProduction',
@@ -48,6 +60,18 @@ const newProductionSlice = createSlice({
       state.production = initialState.production;
     },
   },
+  extraReducers: builder => {
+    builder.addCase(createNewProduction.pending, state => {
+      state.status = STATUS.PENDING;
+    });
+    builder.addCase(createNewProduction.fulfilled, state => {
+      state.status = STATUS.FULFILLED;
+    });
+    builder.addCase(createNewProduction.rejected, (state, { error }) => {
+      state.error = error.message || 'Something went wrong';
+      state.status = STATUS.FAILED;
+    });
+  },
 });
 
 export const {
@@ -61,3 +85,10 @@ export const {
   discardData,
 } = newProductionSlice.actions;
 export const newProductionReducer = newProductionSlice.reducer;
+
+interface NewProduction {
+  status: string;
+  error: string;
+  selectedProducts: string[];
+  production: ProductionData;
+}
