@@ -91,3 +91,16 @@ export interface ProductionData {
     units: string;
   }[];
 }
+
+export interface ProductionFetchData extends ProductionData {
+  id: string;
+}
+
+export interface Event {
+  title: string;
+  start: string;
+  id: string;
+  className: string;
+  color: string;
+  textColor: string;
+}

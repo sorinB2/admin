@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, Card, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import FullCalendar from '@fullcalendar/react';
@@ -14,39 +14,46 @@ import { LoadingSpinner } from '../components/UI/LoadingSpinner';
 // Actions
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setDate } from '../features/newProduction/slice';
+import { getProduction } from '../features/allProduction/slice';
+import { formatEventDate } from '../utils/formatDate';
 
 // Other resources
 import { STRINGS } from '../constants/strings';
 import { STATUS } from '../constants/statuses';
+import { Event } from '../types/types';
+import { Colors } from '../constants/colors';
 
 export const Production = () => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { status } = useAppSelector(state => state.newProduction);
-  const isLoading = status === STATUS.PENDING;
-  const events = [
-    {
-      title: 'Servetele umede',
-      start: '2022-10-06',
-      end: '2022-10-06',
-      allday: true,
-    },
-    {
-      title: 'Lavete',
-      start: '2022-10-14',
-      end: '2022-10-14',
-      allday: true,
-    },
-    {
-      title: 'Hartie',
-      start: '2022-10-08',
-      end: '2022-10-08',
-      allday: true,
-      id: 'ceva',
-    },
-  ];
+  const [events, setEvents] = useState<Event[]>([]);
+  const { status: newProductionStatus } = useAppSelector(state => state.newProduction);
+  const { allProduction, status: allProductionStatus } = useAppSelector(state => state.allProduction);
+  const isLoading = newProductionStatus === STATUS.PENDING || allProductionStatus === STATUS.PENDING;
+
+  useEffect(() => {
+    dispatch(getProduction());
+  }, []);
+
+  useEffect(() => {
+    if (newProductionStatus === STATUS.FULFILLED) dispatch(getProduction());
+  }, [newProductionStatus]);
+
+  useEffect(() => {
+    const allEvents = allProduction.map(item => {
+      return {
+        title: 'Servetele',
+        start: formatEventDate(new Date(item.date)),
+        className: classes.event,
+        color: Colors.lightGreen,
+        textColor: Colors.black,
+        id: item.id,
+      };
+    });
+    setEvents(allEvents);
+  }, [allProduction]);
 
   const previousMonthHandler = () => {
     const calendarApi = calendarRef?.current?.getApi();
@@ -89,6 +96,7 @@ export const Production = () => {
           viewClassNames={classes.calendar}
           plugins={[dayGridPlugin, interactionPlugin]}
           selectable={true}
+          eventDisplay="auto"
           headerToolbar={{
             right: '',
           }}
@@ -103,11 +111,11 @@ export const Production = () => {
 
 const useStyles = makeStyles()(theme => ({
   wrapper: {
-    overflow: 'hidden',
+    overflowY: 'hidden',
     position: 'relative',
   },
   calendar: {
-    overflow: 'hidden',
+    overflowY: 'hidden',
   },
   buttonsBox: {
     position: 'absolute',
@@ -117,5 +125,13 @@ const useStyles = makeStyles()(theme => ({
     color: '#3C4043',
     border: `1px solid ${theme.palette.secondary.light}`,
     marginRight: theme.spacing(2),
+  },
+  event: {
+    cursor: 'pointer',
+    paddingLeft: theme.spacing(1),
+    fontWeight: '500',
+    '&:hover': {
+      transform: 'scale(1.02)',
+    },
   },
 }));
