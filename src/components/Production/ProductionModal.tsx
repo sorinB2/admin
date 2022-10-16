@@ -26,7 +26,7 @@ export const ProductionModal = ({ open, onClose, production }: ProductionModalPr
     <Modal open={open} className={classes.modal} onClose={onClose}>
       <Box className={classes.wrapper}>
         <Typography variant="h1" className={classes.title}>
-          {`${STRINGS.WIPES_PRODUCTION} ${formatDate(new Date(production?.date))}`}
+          {STRINGS.WIPES_PRODUCTION}
         </Typography>
         <TableContainer component={Paper}>
           <Table size="small">
@@ -48,6 +48,11 @@ export const ProductionModal = ({ open, onClose, production }: ProductionModalPr
             </TableBody>
           </Table>
         </TableContainer>
+        <Box className={classes.bottomWrapper}>
+          <Typography variant="h5" className={classes.productionDate}>
+            {formatDate(new Date(production?.date))}
+          </Typography>
+        </Box>
       </Box>
     </Modal>
   );
@@ -79,5 +84,11 @@ const useStyles = makeStyles()(theme => ({
   },
   tableCell: {
     fontSize: '14px',
+  },
+  bottomWrapper: {
+    marginTop: theme.spacing(4),
+  },
+  productionDate: {
+    color: theme.palette.primary.main,
   },
 }));
