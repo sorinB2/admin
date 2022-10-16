@@ -44,7 +44,7 @@ export const SaleModal = ({ open, onClose, sale, index }: SaleModalProps) => {
           {sale?.customer.name}
         </Typography>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} size="small">
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>{STRINGS.PRODUCT}</TableCell>

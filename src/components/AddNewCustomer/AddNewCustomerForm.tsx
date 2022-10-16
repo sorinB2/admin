@@ -142,7 +142,7 @@ export const AddNewCustomerForm = ({ submitHandler, buttonTitle, title }: FormPr
                           value={`${product.brand} ${product.name}`}
                           onClick={e => setProductListId(e, i)}
                         >
-                          {`${product.brand} ${product.name}`}
+                          {`${product.brand} ${product.name} (${product.wipes} buc)`}
                         </MenuItem>
                       );
                     })}

@@ -43,9 +43,9 @@ export const Sales = () => {
   }, [deleteStatus]);
 
   const saleCardClickHandler = (e: MouseEvent) => {
-    const sale = allSales.filter(item => item.id === e.currentTarget.id);
+    const sale = allSales.find(item => item.id === e.currentTarget.id);
     const i = allSales.findIndex(item => item.id === e.currentTarget.id);
-    setSelectedSale(sale[0]);
+    sale && setSelectedSale(sale);
     setIndex(i);
     setIsVisible(true);
   };

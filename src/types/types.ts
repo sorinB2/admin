@@ -1,3 +1,4 @@
+import { DateClickArg } from '@fullcalendar/interaction';
 import React from 'react';
 
 export interface ProductData {
@@ -103,4 +104,16 @@ export interface Event {
   className: string;
   color: string;
   textColor: string;
+}
+
+export interface ProductionCalendarProps {
+  dateClickHandler: (event: DateClickArg) => void;
+  events: Event[];
+  onEventClick: (eventId: string) => void;
+}
+
+export interface ProductionModalProps {
+  open: boolean;
+  onClose: () => void;
+  production: ProductionFetchData;
 }

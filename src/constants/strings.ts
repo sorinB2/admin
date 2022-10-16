@@ -61,4 +61,5 @@ export const STRINGS = {
   ADD_NEW_PRODUCTION: 'Add new production',
   TODAY: 'Today',
   PRODUCTION_SUCCESS: 'Production added successfully',
+  WIPES_PRODUCTION: 'Wipes production',
 };
