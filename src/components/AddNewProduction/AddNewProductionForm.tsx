@@ -118,7 +118,7 @@ export const AddNewProductionForm = ({ isVisible, hideModal }: { isVisible: bool
                               key={product.id}
                               id={product.id}
                               disabled={selectedProducts.includes(product.id)}
-                              value={`${product.brand} ${product.name}`}
+                              value={`${product.brand} ${product.name} (${product.wipes} buc)`}
                               onClick={e => setProductListId(e, i)}
                             >
                               {`${product.brand} ${product.name} (${product.wipes} buc)`}

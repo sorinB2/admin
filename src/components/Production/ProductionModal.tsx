@@ -19,6 +19,7 @@ import { formatDate } from '../../utils/formatDate';
 // Other resources
 import { ProductionModalProps } from '../../types/types';
 import { STRINGS } from '../../constants/strings';
+import { formatNumber } from '../../utils/formatNumber';
 
 export const ProductionModal = ({ open, onClose, production }: ProductionModalProps) => {
   const { classes } = useStyles();
@@ -42,7 +43,7 @@ export const ProductionModal = ({ open, onClose, production }: ProductionModalPr
                   <TableCell component="th" scope="row" className={classes.tableCell}>
                     {item.product}
                   </TableCell>
-                  <TableCell className={classes.tableCell}>{item.units}</TableCell>
+                  <TableCell className={classes.tableCell}>{formatNumber(+item.units)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
