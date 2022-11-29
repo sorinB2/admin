@@ -35,7 +35,7 @@ export const AddNewSale = () => {
     }
   }, [status]);
 
-  const createCustomer = (event: React.FormEvent) => {
+  const createSale = (event: React.FormEvent) => {
     event.preventDefault();
     dispatch(createNewSale(sale));
 
@@ -48,5 +48,5 @@ export const AddNewSale = () => {
     });
   };
 
-  return <AddNewSaleForm submitHandler={createCustomer} buttonTitle={STRINGS.ADD_SALE} title={STRINGS.ADD_NEW_SALE} />;
+  return <AddNewSaleForm submitHandler={createSale} buttonTitle={STRINGS.ADD_SALE} title={STRINGS.ADD_NEW_SALE} />;
 };

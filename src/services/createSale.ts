@@ -10,7 +10,6 @@ export const createSale = async (data: SaleData) => {
     customer: {
       name: data.customer.name,
       id: data.customer.id,
-      products: data.customer.products,
     },
   });
 };
