@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ListItem, Typography, Box } from '@mui/material';
+import { ListItem, Typography, Button } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 
@@ -14,14 +14,14 @@ export const NavigationItem = ({ icon, name, link }: NavigationProps) => {
   };
 
   return (
-    <Box onClick={clickHandler} className={classes.navigationItem}>
+    <Button onClick={clickHandler} className={classes.navigationItem}>
       <ListItem>
         {icon}
         <Typography variant="h5" className={classes.menuItem}>
           {name}
         </Typography>
       </ListItem>
-    </Box>
+    </Button>
   );
 };
 
@@ -36,6 +36,10 @@ const useStyles = makeStyles<{ isActive: boolean }>()((theme, { isActive }) => (
     alignItems: 'center',
     borderRadius: '8px',
     boxSizing: 'border-box',
+    justifyContent: 'start',
+    '&:hover': {
+      backgroundColor: isActive ? theme.palette.primary.main : '',
+    },
   },
   menuItem: {
     paddingLeft: '10px',

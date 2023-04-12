@@ -33,6 +33,7 @@ const adminSlice = createSlice({
     builder.addCase(checkAdmin.rejected, (state, { error }) => {
       state.error = error.message || 'Something went wrong';
       state.status = STATUS.FAILED;
+      state.isAdmin = false;
     });
   },
 });

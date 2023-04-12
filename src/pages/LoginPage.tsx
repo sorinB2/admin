@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { login, resetFields, setEmail, setPassword } from '../features/login/slice';
 import { validateEmail } from '../utils/validateEmail';
 import { errorSnackBar } from '../features/snackBar/slice';
+import { checkAdmin } from '../features/admin/slice';
 
 // Other resources
 import { STATUS } from '../constants/statuses';
@@ -30,26 +31,30 @@ export const LoginPage = () => {
 
   useEffect(() => {
     const authToken = sessionStorage.getItem('authToken');
-    if (authToken) {
+    if (authToken && isAdmin) {
       dispatch(resetFields());
       navigate(ROUTES.HOME);
     }
-  }, [status]);
+  }, [status, isAdmin]);
 
   useEffect(() => {
     if (failed) dispatch(errorSnackBar(error));
     if (isAdmin) navigate(ROUTES.HOME);
   }, [status]);
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     !validateEmail(email) ? setEmailIsValid(false) : setEmailIsValid(true);
     password.trim().length <= 0 ? setPasswordIsValid(false) : setPasswordIsValid(true);
 
     if (validateEmail(email) && password.trim().length > 0) {
-      dispatch(login({ email, password }));
+      await dispatch(login({ email, password }));
+      const authToken = sessionStorage.getItem('authToken');
+      await dispatch(checkAdmin(authToken));
     }
   };
+
+  if (isAdmin) return <></>;
 
   return (
     <Box className={classes.wrapper}>
