@@ -88,7 +88,8 @@ const useStyles = makeStyles()(theme => ({
     '&:nth-of-type(2n+1)': {
       backgroundColor: theme.palette.common.lightBackground,
     },
-    width: '550px',
+    width: '100%',
+    minWidth: '550px',
     height: 'auto',
     padding: theme.spacing(1.5),
     boxSizing: 'border-box',
