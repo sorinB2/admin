@@ -118,7 +118,7 @@ const useStyles = makeStyles()(theme => ({
     borderRadius: theme.spacing(2),
     padding: theme.spacing(4),
     boxSizing: 'border-box',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   bodyTableRow: {
     '&:last-child td, &:last-child th': { border: 0 },

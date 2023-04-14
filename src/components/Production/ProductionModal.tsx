@@ -73,7 +73,7 @@ const useStyles = makeStyles()(theme => ({
     borderRadius: theme.spacing(2),
     padding: theme.spacing(4),
     boxSizing: 'border-box',
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   title: {
     fontWeight: '600',

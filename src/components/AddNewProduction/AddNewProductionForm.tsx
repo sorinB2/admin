@@ -181,7 +181,7 @@ const useStyles = makeStyles()(theme => ({
     padding: theme.spacing(4),
     paddingBottom: '0',
     boxSizing: 'border-box',
-    overflowY: 'scroll',
+    overflowY: 'auto',
     outline: 'none',
   },
   form: {
