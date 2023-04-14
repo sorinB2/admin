@@ -17,7 +17,7 @@ export interface ProductFetchData extends ProductData {
 }
 
 export interface Product {
-  product: string;
+  name: string;
   price: string;
   id: string;
 }
@@ -43,7 +43,6 @@ export interface SaleData {
   order: OrderData[];
   date: string;
   totalIncome: number;
-  paid: boolean;
   status: string;
 }
 
@@ -87,7 +86,7 @@ export interface ActionConfirmModalProps {
 export interface ProductionData {
   date: string;
   products: {
-    product: string;
+    name: string;
     id: string;
     units: string;
   }[];

@@ -57,7 +57,7 @@ export const SaleModal = ({ open, onClose, sale, index }: SaleModalProps) => {
               {sale?.order.map(item => (
                 <TableRow key={item.product.id} className={classes.bodyTableRow}>
                   <TableCell component="th" scope="row" className={classes.tableCell}>
-                    {item.product.product}
+                    {item.product.name}
                   </TableCell>
                   <TableCell align="right" className={classes.tableCell}>
                     {item.units}

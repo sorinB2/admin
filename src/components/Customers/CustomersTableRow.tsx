@@ -103,7 +103,7 @@ export const CustomersTableRow = ({ customerData }: { customerData: CustomerFetc
                   {products.map(product => (
                     <TableRow key={product.id}>
                       <TableCell align="right" className={classes.collapseData}>
-                        {product.product}
+                        {product.name}
                       </TableCell>
                       <TableCell align="right" className={classes.collapseData}>
                         {product.price}

@@ -13,7 +13,7 @@ const initialState: NewProduction = {
   selectedProducts: [],
   production: {
     date: '',
-    products: [{ product: '', units: '', id: '' }],
+    products: [{ name: '', units: '', id: '' }],
   },
 };
 
@@ -36,7 +36,7 @@ const newProductionSlice = createSlice({
       state.selectedProducts = action.payload;
     },
     setProductType: (state, action) => {
-      state.production.products[action.payload.i].product = action.payload.value;
+      state.production.products[action.payload.i].name = action.payload.value;
     },
     setProductId: (state, action) => {
       state.production.products[action.payload.i].id = action.payload.value;
@@ -45,7 +45,7 @@ const newProductionSlice = createSlice({
       state.production.products[action.payload.i].units = action.payload.value;
     },
     addProduct: state => {
-      state.production.products = [...state.production.products, { product: '', id: '', units: '' }];
+      state.production.products = [...state.production.products, { name: '', id: '', units: '' }];
     },
     removeProduct: (state, action) => {
       const list = [...state.production.products];

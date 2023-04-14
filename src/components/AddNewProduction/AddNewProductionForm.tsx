@@ -109,7 +109,7 @@ export const AddNewProductionForm = ({ isVisible, hideModal }: { isVisible: bool
                         labelId="product"
                         name="product"
                         required
-                        value={item.product}
+                        value={item.name}
                         onChange={e => selectChangeHandler(e, i)}
                       >
                         {allProducts.map(product => {

@@ -19,13 +19,12 @@ const initialState: NewSale = {
       location: '',
       phone: '',
       receivables: 0,
-      products: [{ product: '', price: '', id: '' }],
+      products: [{ name: '', price: '', id: '' }],
       id: '',
     },
     date: new Date().toString(),
-    order: [{ product: { product: '', price: '', id: '', stock: '' }, units: '', income: 0 }],
+    order: [{ product: { name: '', price: '', id: '', stock: '' }, units: '', income: 0 }],
     totalIncome: 0,
-    paid: false,
     status: '',
   },
 };
@@ -79,7 +78,7 @@ const newSaleSlice = createSlice({
     addOrderItem: state => {
       state.sale.order = [
         ...state.sale.order,
-        { product: { product: '', price: '', id: '', stock: '' }, units: '', income: 0 },
+        { product: { name: '', price: '', id: '', stock: '' }, units: '', income: 0 },
       ];
     },
     removeOrderItem: (state, action) => {

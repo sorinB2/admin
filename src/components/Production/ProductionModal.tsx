@@ -41,7 +41,7 @@ export const ProductionModal = ({ open, onClose, production }: ProductionModalPr
               {production?.products.map(item => (
                 <TableRow key={item.id} className={classes.bodyTableRow}>
                   <TableCell component="th" scope="row" className={classes.tableCell}>
-                    {item.product}
+                    {item.name}
                   </TableCell>
                   <TableCell className={classes.tableCell}>{formatNumber(+item.units)}</TableCell>
                 </TableRow>

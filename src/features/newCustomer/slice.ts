@@ -16,7 +16,7 @@ const initialState: NewCustomer = {
     location: '',
     phone: '',
     receivables: 0,
-    products: [{ product: '', price: '', id: '' }],
+    products: [{ name: '', price: '', id: '' }],
   },
 };
 
@@ -45,7 +45,7 @@ const newCustomerSlice = createSlice({
       state.customer.receivables = action.payload;
     },
     addProduct: state => {
-      state.customer.products = [...state.customer.products, { product: '', price: '', id: '' }];
+      state.customer.products = [...state.customer.products, { name: '', price: '', id: '' }];
     },
     setSelectedProducts: (state, action) => {
       state.selectedProducts = action.payload;
@@ -63,7 +63,7 @@ const newCustomerSlice = createSlice({
       state.customer.products[action.payload.i].price = action.payload.value;
     },
     setProductType: (state, action) => {
-      state.customer.products[action.payload.i].product = action.payload.value;
+      state.customer.products[action.payload.i].name = action.payload.value;
     },
     setProductId: (state, action) => {
       state.customer.products[action.payload.i].id = action.payload.value;

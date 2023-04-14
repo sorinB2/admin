@@ -115,14 +115,14 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                       labelId="product"
                       name="product"
                       required
-                      value={sale.order[i].product.product}
+                      value={sale.order[i].product.name}
                     >
                       {sale.customer.products.map(product => {
                         return (
                           <MenuItem
                             key={product.id}
                             id={product.id}
-                            value={product.product}
+                            value={product.name}
                             disabled={selectedProducts.includes(product.id)}
                             onClick={e => {
                               setProductListId(e, i);
@@ -131,7 +131,7 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                               dispatch(setStock({ i, value: prod[0].stock }));
                             }}
                           >
-                            {product.product}
+                            {product.name}
                           </MenuItem>
                         );
                       })}
@@ -153,7 +153,7 @@ export const AddNewSaleForm = ({ submitHandler, buttonTitle, title }: FormProps)
                       autoComplete="off"
                       value={sale.order[i].units}
                       helperText={
-                        sale.order[i].product.product &&
+                        sale.order[i].product.name &&
                         `${STRINGS.STOCK} ${+sale.order[i].product.stock - +sale.order[i].units}`
                       }
                       onChange={e => {
